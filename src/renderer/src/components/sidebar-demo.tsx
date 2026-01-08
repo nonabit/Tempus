@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import dayjs from 'dayjs'
+import { motion } from 'motion/react'
 import { Sidebar, SidebarBody, SidebarLink } from '@/components/ui/sidebar'
 import {
   IconChartBar,
@@ -53,9 +54,10 @@ export default function SidebarDemo() {
   const { getEntryByDate, settings } = useTimeStore()
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
-  // 点击日历格子
+  // 点击日历格子（点击已选中的日期则关闭弹窗）
   const handleCellClick = (cellDate: Date) => {
-    setSelectedDate(dayjs(cellDate).format('YYYY-MM-DD'))
+    const clickedDate = dayjs(cellDate).format('YYYY-MM-DD')
+    setSelectedDate(selectedDate === clickedDate ? null : clickedDate)
   }
 
   // 关闭详情面板
@@ -121,22 +123,31 @@ export default function SidebarDemo() {
           />
         </div>
 
-        {/* 右侧详情面板 - 点击日期后显示 */}
-        {selectedDate && (
-          <div className="w-80 shrink-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden p-4 relative">
+        {/* 右侧详情面板 - 宽度动画实现平滑过渡 */}
+        <motion.div
+          animate={{
+            width: selectedDate ? 320 : 0,
+            opacity: selectedDate ? 1 : 0
+          }}
+          transition={{ duration: 0.25, ease: 'easeInOut' }}
+          className="shrink-0 overflow-hidden"
+        >
+          <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 relative">
             <button
               onClick={handleClosePanel}
               className="absolute right-3 top-3 rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700"
             >
               <IconX className="h-4 w-4" />
             </button>
-            <TimeEntryForm
-              date={selectedDate}
-              existingEntry={selectedEntry}
-              onSuccess={handleClosePanel}
-            />
+            {selectedDate && (
+              <TimeEntryForm
+                date={selectedDate}
+                existingEntry={selectedEntry}
+                onSuccess={handleClosePanel}
+              />
+            )}
           </div>
-        )}
+        </motion.div>
       </div>
     </div>
   )
