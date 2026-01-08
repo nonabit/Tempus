@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
-  IconArrowLeft,
+  IconChartBar,
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
@@ -34,10 +34,10 @@ export default function SidebarDemo() {
       ),
     },
     {
-      label: "Logout",
+      label: "Analysis",
       href: "#",
       icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconChartBar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
   ];
@@ -75,6 +75,11 @@ export default function SidebarDemo() {
               const day = cellDate.getDay();
               const isWeekend = day === 0 || day === 6;
               if (isWeekend) return null;
+
+              // Hide future dates
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              if (cellDate > today) return null;
 
               // Deterministic "random" logic for demo stability
               const seed = cellDate.getDate() + cellDate.getMonth();
