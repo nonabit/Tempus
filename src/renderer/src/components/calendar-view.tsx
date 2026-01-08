@@ -1,81 +1,91 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Solar, HolidayUtil } from "lunar-typescript";
+import * as React from 'react'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Solar, HolidayUtil } from 'lunar-typescript'
 
 interface CalendarViewProps {
   /**
    * The current date focused in the calendar (determines the month displayed)
    */
-  currentDate?: Date;
+  currentDate?: Date
   /**
    * Callback when the current date changes (e.g. navigation)
    */
-  onDateChange?: (date: Date) => void;
+  onDateChange?: (date: Date) => void
+  /**
+   * 当前选中的日期（YYYY-MM-DD 格式）
+   */
+  selectedDate?: string
+  /**
+   * 点击日历格子时的回调
+   */
+  onCellClick?: (date: Date) => void
   /**
    * Custom renderer for the cell content.
    * Useful for displaying work hours or other data.
    */
-  renderCell?: (date: Date) => React.ReactNode;
-  className?: string;
+  renderCell?: (date: Date) => React.ReactNode
+  className?: string
 }
 
 export function CalendarView({
   currentDate = new Date(),
   onDateChange,
+  selectedDate,
+  onCellClick,
   renderCell,
-  className,
+  className
 }: CalendarViewProps) {
   // Use internal state if not controlled, but generally expect controlled usage for date
-  const [internalDate, setInternalDate] = React.useState(dayjs(currentDate));
+  const [internalDate, setInternalDate] = React.useState(dayjs(currentDate))
 
   React.useEffect(() => {
-    setInternalDate(dayjs(currentDate).locale("zh-cn"));
-  }, [currentDate]);
+    setInternalDate(dayjs(currentDate).locale('zh-cn'))
+  }, [currentDate])
 
   const handlePrevMonth = () => {
-    const newDate = internalDate.subtract(1, "month");
-    setInternalDate(newDate);
-    onDateChange?.(newDate.toDate());
-  };
+    const newDate = internalDate.subtract(1, 'month')
+    setInternalDate(newDate)
+    onDateChange?.(newDate.toDate())
+  }
 
   const handleNextMonth = () => {
-    const newDate = internalDate.add(1, "month");
-    setInternalDate(newDate);
-    onDateChange?.(newDate.toDate());
-  };
+    const newDate = internalDate.add(1, 'month')
+    setInternalDate(newDate)
+    onDateChange?.(newDate.toDate())
+  }
 
   // Generate 42 grid items
   // 1. Get start of month
-  const startOfMonth = internalDate.startOf("month");
+  const startOfMonth = internalDate.startOf('month')
   // 2. Get start of week for that start of month (Strictly Sunday start)
   // We explicitly calculate Sunday by subtracting the day index (0=Sun, 1=Mon...)
-  const startOfGrid = startOfMonth.subtract(startOfMonth.day(), "day");
+  const startOfGrid = startOfMonth.subtract(startOfMonth.day(), 'day')
 
   const days = React.useMemo(() => {
-    const grid: dayjs.Dayjs[] = [];
-    let current = startOfGrid;
+    const grid: dayjs.Dayjs[] = []
+    let current = startOfGrid
     // 42 cells: 6 rows * 7 columns
     for (let i = 0; i < 42; i++) {
-      grid.push(current);
-      current = current.add(1, "day");
+      grid.push(current)
+      current = current.add(1, 'day')
     }
-    return grid;
-  }, [startOfGrid]);
+    return grid
+  }, [startOfGrid])
 
-  const weekDays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
   return (
-    <div className={cn("flex flex-col gap-4 p-4", className)}>
+    <div className={cn('flex flex-col gap-4 p-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-          {internalDate.format("YYYY年 M月")}
+          {internalDate.format('YYYY年 M月')}
         </h2>
         <div className="flex gap-2">
           <Button
@@ -113,74 +123,90 @@ export function CalendarView({
 
         {/* Days */}
         {days.map((dayItem) => {
-          const isCurrentMonth = dayItem.month() === internalDate.month();
-          const isToday = dayItem.isSame(dayjs(), "day");
-          const dateObj = dayItem.toDate();
-          const dayOfWeek = dayItem.day();
-          const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+          const isCurrentMonth = dayItem.month() === internalDate.month()
+          const isToday = dayItem.isSame(dayjs(), 'day')
+          const dateObj = dayItem.toDate()
+          const dayOfWeek = dayItem.day()
+          const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
+          const isSelected = selectedDate === dayItem.format('YYYY-MM-DD')
 
           // Lunar / Solar / Holiday Calc
-          const solar = Solar.fromYmd(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
-          const lunar = solar.getLunar();
-          const holiday = HolidayUtil.getHoliday(dateObj.getFullYear(), dateObj.getMonth() + 1, dateObj.getDate());
+          const solar = Solar.fromYmd(
+            dateObj.getFullYear(),
+            dateObj.getMonth() + 1,
+            dateObj.getDate()
+          )
+          const lunar = solar.getLunar()
+          const holiday = HolidayUtil.getHoliday(
+            dateObj.getFullYear(),
+            dateObj.getMonth() + 1,
+            dateObj.getDate()
+          )
 
-          let bottomText = lunar.getDayInChinese();
-          let bottomTextColor = "text-neutral-400 dark:text-neutral-500";
-          let isHoliday = false;
+          let bottomText = lunar.getDayInChinese()
+          let bottomTextColor = 'text-neutral-400 dark:text-neutral-500'
+          let isHoliday = false
 
-          const jieQi = lunar.getJieQi();
+          const jieQi = lunar.getJieQi()
           if (jieQi) {
-            bottomText = jieQi;
-            bottomTextColor = "text-green-600 dark:text-green-400";
+            bottomText = jieQi
+            bottomTextColor = 'text-green-600 dark:text-green-400'
           }
 
           if (holiday) {
-            bottomText = holiday.getName();
-            isHoliday = true;
-            bottomTextColor = "text-blue-600 dark:text-blue-400";
+            bottomText = holiday.getName()
+            isHoliday = true
+            bottomTextColor = 'text-blue-600 dark:text-blue-400'
           }
 
           // Special handling for "初一" to show Month
           if (lunar.getDay() === 1) {
-            bottomText = lunar.getMonthInChinese() + "月";
+            bottomText = lunar.getMonthInChinese() + '月'
             if (!isHoliday && !jieQi) {
-              bottomTextColor = "text-amber-600 dark:text-amber-500";
+              bottomTextColor = 'text-amber-600 dark:text-amber-500'
             }
           }
 
           // Last Saturday Logic
-          const isSaturday = dayOfWeek === 6;
-          const isLastSaturday = isSaturday && dayItem.add(7, 'day').month() !== dayItem.month();
-          let isLastSatMark = false;
+          const isSaturday = dayOfWeek === 6
+          const isLastSaturday = isSaturday && dayItem.add(7, 'day').month() !== dayItem.month()
+          let isLastSatMark = false
 
           if (isLastSaturday && !holiday) {
-            isLastSatMark = true;
-            bottomText = "月末周六";
-            bottomTextColor = "text-purple-600 dark:text-purple-400 font-bold";
+            isLastSatMark = true
+            bottomText = '月末周六'
+            bottomTextColor = 'text-purple-600 dark:text-purple-400 font-bold'
           }
 
           return (
             <div
               key={dayItem.toString()}
+              onClick={() => onCellClick?.(dateObj)}
               className={cn(
-                "group relative border-b border-r border-neutral-200 p-2 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0",
-                !isCurrentMonth && "bg-neutral-50/50 dark:bg-neutral-900/50",
-                isToday && "bg-blue-50/30 dark:bg-blue-900/10",
-                isWeekend && isCurrentMonth && !isToday && !isLastSatMark && "bg-neutral-50/30 dark:bg-neutral-800/20",
-                isLastSatMark && "bg-purple-50 dark:bg-purple-900/20"
+                'group relative border-b border-r border-neutral-200 p-2 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0 cursor-pointer',
+                !isCurrentMonth && 'bg-neutral-50/50 dark:bg-neutral-900/50',
+                isToday && !isSelected && 'bg-blue-50/30 dark:bg-blue-900/10',
+                isSelected && 'bg-blue-100 dark:bg-blue-900/30 ring-2 ring-inset ring-blue-500',
+                isWeekend &&
+                  isCurrentMonth &&
+                  !isToday &&
+                  !isSelected &&
+                  !isLastSatMark &&
+                  'bg-neutral-50/30 dark:bg-neutral-800/20',
+                isLastSatMark && !isSelected && 'bg-purple-50 dark:bg-purple-900/20'
               )}
             >
               <div className="mb-1 flex-none flex items-start justify-between">
                 <span
                   className={cn(
-                    "flex h-7 w-7 items-center justify-center rounded-full text-lg font-medium",
+                    'flex h-7 w-7 items-center justify-center rounded-full text-lg font-medium',
                     isToday
-                      ? "bg-blue-600 text-white"
+                      ? 'bg-blue-600 text-white'
                       : isCurrentMonth
                         ? isWeekend
-                          ? "text-red-500 dark:text-red-400"
-                          : "text-neutral-900 dark:text-neutral-100"
-                        : "text-neutral-400 dark:text-neutral-600"
+                          ? 'text-red-500 dark:text-red-400'
+                          : 'text-neutral-900 dark:text-neutral-100'
+                        : 'text-neutral-400 dark:text-neutral-600'
                   )}
                 >
                   {dayItem.date()}
@@ -195,25 +221,27 @@ export function CalendarView({
               {/* Bottom Left Info */}
               <div className="flex-none flex flex-col justify-end items-start gap-0.5">
                 <div className="flex items-center gap-1">
-                  <span className={cn("text-[10px] font-medium leading-none", bottomTextColor)}>
+                  <span className={cn('text-[10px] font-medium leading-none', bottomTextColor)}>
                     {bottomText}
                   </span>
                   {holiday && (
-                    <span className={cn(
-                      "text-[9px] px-1 rounded leading-none py-0.5",
-                      holiday.isWork()
-                        ? "bg-neutral-200 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300" // 班
-                        : "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" // 休
-                    )}>
-                      {holiday.isWork() ? "班" : "休"}
+                    <span
+                      className={cn(
+                        'text-[9px] px-1 rounded leading-none py-0.5',
+                        holiday.isWork()
+                          ? 'bg-neutral-200 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300' // 班
+                          : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' // 休
+                      )}
+                    >
+                      {holiday.isWork() ? '班' : '休'}
                     </span>
                   )}
                 </div>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
