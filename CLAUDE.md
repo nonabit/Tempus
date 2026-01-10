@@ -36,15 +36,40 @@ pnpm build:linux
 
 ```
 src/
-├── main/           # Electron 主进程代码
-├── preload/        # Electron 预加载脚本（IPC 通信桥接）
-└── renderer/src/   # React 渲染进程（前端 UI）
+├── main/               # Electron 主进程代码
+├── preload/            # Electron 预加载脚本（IPC 通信桥接）
+└── renderer/src/       # React 渲染进程（前端 UI）
     ├── components/
-    │   ├── ui/     # 基础 UI 组件（Button、Sidebar）
+    │   ├── ui/         # 基础 UI 组件（Button、Sidebar）
+    │   ├── achievement/  # 成就系统组件
+    │   │   ├── AchievementWall.tsx      # 勋章墙展示
+    │   │   ├── AchievementBadge.tsx     # 勋章卡片
+    │   │   ├── AchievementDetail.tsx    # 勋章详情弹窗
+    │   │   ├── AchievementIcon.tsx      # 勋章图标
+    │   │   ├── AchievementProgress.tsx  # 进度条组件
+    │   │   └── AchievementNotification.tsx  # 解锁通知弹窗
+    │   ├── timesheet/    # 工时记录组件
+    │   │   ├── TimeEntryForm.tsx   # 工时录入表单
+    │   │   └── DailyTimeCard.tsx   # 当日工时卡片
+    │   ├── widgets/      # 趣味小组件
+    │   │   ├── IncomeCard.tsx      # 实时收入卡片（水位线动画）
+    │   │   └── FunStats.tsx        # 趣味统计卡片
     │   ├── calendar-view.tsx   # 日历视图核心组件
     │   └── sidebar-demo.tsx    # 主界面布局
+    ├── stores/           # Zustand 状态管理
+    │   ├── timeStore.ts        # 工时数据状态
+    │   └── achievementStore.ts # 成就系统状态
+    ├── services/
+    │   └── storage.ts    # 本地存储服务
+    ├── hooks/
+    │   └── useAchievementSync.ts  # 成就同步 Hook
+    ├── data/
+    │   └── achievements.ts  # 成就定义数据
+    ├── types/            # TypeScript 类型定义
+    │   ├── timesheet.ts
+    │   └── achievement.ts
     └── lib/
-        └── utils.ts            # cn() 工具函数
+        └── utils.ts      # cn() 工具函数
 ```
 
 ### 核心技术点
@@ -53,6 +78,8 @@ src/
 - **日期处理**: 使用 `dayjs` 配合中文本地化
 - **动画**: 使用 `motion/react` 实现侧边栏动画效果
 - **样式**: Tailwind CSS 4 + CVA (class-variance-authority) 管理组件变体
+- **状态管理**: 使用 `zustand` 管理工时和成就系统状态
+- **本地存储**: 使用 localStorage 持久化数据
 
 ### 路径别名
 
