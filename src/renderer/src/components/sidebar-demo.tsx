@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { CalendarView } from '@/components/calendar-view'
 import { TimeEntryForm } from '@/components/timesheet'
 import { AchievementWall } from '@/components/achievement'
+import { IncomeCard, FunStats } from '@/components/widgets'
 import { useTimeStore, calculateWorkHours } from '@/stores/timeStore'
 
 type ViewType = 'calendar' | 'achievement' | 'stats' | 'settings'
@@ -98,36 +99,36 @@ export default function SidebarDemo() {
           <>
             {/* 日历 */}
             <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden">
-              <CalendarView
-                className="flex-1 h-full min-h-0"
-                currentDate={date}
-                onDateChange={setDate}
-                onCellClick={handleCellClick}
-                selectedDate={selectedDate || undefined}
-                renderCell={(cellDate) => {
-                  const dateStr = dayjs(cellDate).format('YYYY-MM-DD')
-                  const entry = getEntryByDate(dateStr)
+                <CalendarView
+                  className="flex-1 h-full min-h-0"
+                  currentDate={date}
+                  onDateChange={setDate}
+                  onCellClick={handleCellClick}
+                  selectedDate={selectedDate || undefined}
+                  renderCell={(cellDate) => {
+                    const dateStr = dayjs(cellDate).format('YYYY-MM-DD')
+                    const entry = getEntryByDate(dateStr)
 
-                  // 没有记录则不显示任何内容
-                  if (!entry) return null
+                    // 没有记录则不显示任何内容
+                    if (!entry) return null
 
-                  // 有记录时显示工时
-                  const workInfo = calculateWorkHours(entry, settings)
-                  return (
-                    <div
-                      className={cn(
-                        'w-full rounded p-1 text-xs text-center',
-                        workInfo.isOvertime
-                          ? 'bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300'
-                          : 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'
-                      )}
-                    >
-                      {workInfo.formattedTotal}
-                    </div>
-                  )
-                }}
-              />
-            </div>
+                    // 有记录时显示工时
+                    const workInfo = calculateWorkHours(entry, settings)
+                    return (
+                      <div
+                        className={cn(
+                          'w-full rounded p-1 text-xs text-center',
+                          workInfo.isOvertime
+                            ? 'bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300'
+                            : 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'
+                        )}
+                      >
+                        {workInfo.formattedTotal}
+                      </div>
+                    )
+                  }}
+                />
+              </div>
 
             {/* 右侧详情面板 */}
             <motion.div
@@ -138,19 +139,25 @@ export default function SidebarDemo() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="shrink-0 overflow-hidden"
             >
-              <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 relative">
+              <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 relative overflow-y-auto">
                 <button
                   onClick={handleClosePanel}
-                  className="absolute right-3 top-3 rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700"
+                  className="absolute right-3 top-3 rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700 z-10"
                 >
                   <IconX className="h-4 w-4" />
                 </button>
                 {selectedDate && (
-                  <TimeEntryForm
-                    date={selectedDate}
-                    existingEntry={selectedEntry}
-                    onSuccess={handleClosePanel}
-                  />
+                  <div className="flex flex-col gap-4">
+                    <TimeEntryForm
+                      date={selectedDate}
+                      existingEntry={selectedEntry}
+                      onSuccess={handleClosePanel}
+                    />
+                    {/* 收入卡片 */}
+                    {selectedEntry && <IncomeCard date={selectedDate} />}
+                    {/* 趣味统计 */}
+                    <FunStats />
+                  </div>
                 )}
               </div>
             </motion.div>
