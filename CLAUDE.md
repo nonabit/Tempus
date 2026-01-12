@@ -37,7 +37,11 @@ pnpm build:linux
 ```
 src/
 ├── main/               # Electron 主进程代码
+│   ├── index.ts        # 主进程入口，IPC 处理器
+│   └── database.ts     # SQLite 数据库服务
 ├── preload/            # Electron 预加载脚本（IPC 通信桥接）
+│   ├── index.ts        # 暴露数据库 API 给渲染进程
+│   └── index.d.ts      # 类型声明
 └── renderer/src/       # React 渲染进程（前端 UI）
     ├── components/
     │   ├── ui/         # 基础 UI 组件（Button、Sidebar）
@@ -54,20 +58,26 @@ src/
     │   ├── widgets/      # 趣味小组件
     │   │   ├── IncomeCard.tsx      # 实时收入卡片（水位线动画）
     │   │   └── FunStats.tsx        # 趣味统计卡片
+    │   ├── settings/     # 设置相关组件
+    │   │   └── ApiConfigForm.tsx   # API 配置表单
     │   ├── calendar-view.tsx   # 日历视图核心组件
     │   └── sidebar-demo.tsx    # 主界面布局
     ├── stores/           # Zustand 状态管理
-    │   ├── timeStore.ts        # 工时数据状态
-    │   └── achievementStore.ts # 成就系统状态
+    │   ├── timeStore.ts        # 工时数据状态（含 SQLite 同步）
+    │   ├── achievementStore.ts # 成就系统状态
+    │   └── settingsStore.ts    # 用户设置状态（API 配置等）
     ├── services/
-    │   └── storage.ts    # 本地存储服务
+    │   ├── storage.ts    # 本地存储服务（旧，将废弃）
+    │   └── companyApi.ts # 公司 API 同步服务
     ├── hooks/
-    │   └── useAchievementSync.ts  # 成就同步 Hook
+    │   ├── useAchievementSync.ts  # 成就同步 Hook
+    │   └── useAppInit.ts          # 应用初始化 Hook
     ├── data/
     │   └── achievements.ts  # 成就定义数据
     ├── types/            # TypeScript 类型定义
     │   ├── timesheet.ts
-    │   └── achievement.ts
+    │   ├── achievement.ts
+    │   └── api.ts        # API 相关类型
     └── lib/
         └── utils.ts      # cn() 工具函数
 ```
@@ -79,7 +89,8 @@ src/
 - **动画**: 使用 `motion/react` 实现侧边栏动画效果
 - **样式**: Tailwind CSS 4 + CVA (class-variance-authority) 管理组件变体
 - **状态管理**: 使用 `zustand` 管理工时和成就系统状态
-- **本地存储**: 使用 localStorage 持久化数据
+- **本地存储**: 使用 `better-sqlite3` 进行 SQLite 持久化（主进程），通过 IPC 与渲染进程通信
+- **API 同步**: 支持从公司 REST API 同步打卡记录
 
 ### 路径别名
 
@@ -90,3 +101,16 @@ src/
 - 交流和注释必须使用中文
 - 文档存放在 `docs/` 目录下
 - Prettier 配置: 单引号、无分号、100 字符宽度
+
+## AI 导航约定（必须遵守）
+
+本项目使用文件夹级别的 README.md 索引系统：
+
+**当你新增/删除/重命名源文件时，必须同时更新：**
+1. 该文件所在目录的 `README.md`（如果存在）
+2. 如果涉及顶级目录结构变化，更新本文件的目录结构部分
+
+**示例：**
+- 新增 `src/renderer/src/components/ui/Modal.tsx` → 更新 `src/renderer/src/components/ui/README.md`
+- 删除某个组件 → 从对应目录的 README.md 中移除该条目
+- 新增依赖库 → 更新本文件的「核心技术点」部分

@@ -15,6 +15,7 @@ import { CalendarView } from '@/components/calendar-view'
 import { TimeEntryForm } from '@/components/timesheet'
 import { AchievementWall } from '@/components/achievement'
 import { IncomeCard, FunStats } from '@/components/widgets'
+import { ApiConfigForm } from '@/components/settings/ApiConfigForm'
 import { useTimeStore, calculateWorkHours } from '@/stores/timeStore'
 
 type ViewType = 'calendar' | 'achievement' | 'stats' | 'settings'
@@ -177,8 +178,8 @@ export default function SidebarDemo() {
         )}
 
         {activeView === 'settings' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden p-6">
-            <div className="text-center text-neutral-400">设置功能开发中...</div>
+          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-y-auto">
+            <ApiConfigForm />
           </div>
         )}
       </div>
