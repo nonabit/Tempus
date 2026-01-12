@@ -1,6 +1,6 @@
 {
-    "scripts": {
-        "setup": "pnpm install",
-        "run": "pnpm dev"
-    }
+  "scripts": {
+    "setup": "pnpm install",
+    "run": "pnpm dev"
+  }
 }

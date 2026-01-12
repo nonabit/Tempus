@@ -46,12 +46,15 @@ my-app/
 # My App
 
 ## AI Navigation Convention
+
 This project uses folder-level indexing:
+
 - Each major folder has README.md describing its role and file list
 - Source files include: `// 📁 Folder structure changed, update ./README.md`
 - When adding/removing/renaming files, update the folder's README.md
 
 ## Tech Stack
+
 - React 18.2 + TypeScript 5.0
 - Build: Vite 5.0
 - State: Zustand 4.4
@@ -59,6 +62,7 @@ This project uses folder-level indexing:
 - API: Axios 1.6
 
 ## Architecture
+
 - `/src/components` - Reusable UI components
 - `/src/hooks` - Custom React hooks
 - `/src/api` - API request layer (all backend calls)
@@ -66,6 +70,7 @@ This project uses folder-level indexing:
 - `/src/utils` - Pure utility functions
 
 ## Key Design Decisions
+
 - All API requests go through `/api/client.ts` for unified error handling
 - Global state via Zustand, local state via useState
 - Component styles use Tailwind utilities, complex styles use CSS modules
@@ -75,25 +80,30 @@ This project uses folder-level indexing:
 ### Folder README Templates
 
 **components/README.md:**
+
 ```markdown
 ## Components
 
 Reusable UI components library.
 
 **Base Components:**
+
 - Button.tsx - Primary button, supports variants (primary/secondary/danger)
 - Input.tsx - Text input with validation error display
 - Modal.tsx - Overlay modal component using React Portal
 
 **Form Components:**
+
 - Form/ - Form-related components (inputs, selects, validation)
 
 **Conventions:**
+
 - All components accept className for style extension
 - Use forwardRef for input components
 ```
 
 **hooks/README.md:**
+
 ```markdown
 ## Hooks
 
@@ -106,16 +116,19 @@ Custom React hooks for shared logic.
 ```
 
 **api/README.md:**
+
 ```markdown
 ## API
 
 Backend communication layer.
 
 **Core:**
+
 - client.ts - Axios instance with base config and interceptors
 - types.ts - TypeScript types for all API responses
 
 **Endpoints:**
+
 - auth.ts - Authentication endpoints (login, register, logout)
 - users.ts - User CRUD operations
 - posts.ts - Post management endpoints
@@ -124,6 +137,7 @@ Backend communication layer.
 ```
 
 **pages/README.md:**
+
 ```markdown
 ## Pages
 
@@ -138,6 +152,7 @@ Top-level route components.
 ```
 
 **utils/README.md:**
+
 ```markdown
 ## Utils
 
@@ -190,15 +205,18 @@ api-server/
 # API Server
 
 ## AI Navigation Convention
+
 [Same as frontend example]
 
 ## Tech Stack
+
 - Node.js 20 + TypeScript 5.0
 - Framework: Express 4.18
 - Database: PostgreSQL 15 with Prisma ORM
 - Auth: JWT with bcrypt
 
 ## Architecture (MVC Pattern)
+
 - `/src/routes` - Express route definitions
 - `/src/controllers` - Request handlers (thin layer)
 - `/src/services` - Business logic
@@ -207,6 +225,7 @@ api-server/
 - `/src/utils` - Shared utilities
 
 ## Key Design Decisions
+
 - Controllers only handle HTTP, services handle business logic
 - All database access through Prisma ORM
 - JWT tokens for authentication, stored in httpOnly cookies
@@ -216,19 +235,21 @@ api-server/
 ### Folder README Templates
 
 **routes/README.md:**
+
 ```markdown
 ## Routes
 
 Express route definitions.
 
-- auth.routes.ts - Authentication routes (/auth/*)
-- user.routes.ts - User management routes (/users/*)
-- post.routes.ts - Post endpoints (/posts/*)
+- auth.routes.ts - Authentication routes (/auth/\*)
+- user.routes.ts - User management routes (/users/\*)
+- post.routes.ts - Post endpoints (/posts/\*)
 
 **Convention:** Routes only define paths and middleware, delegate to controllers.
 ```
 
 **controllers/README.md:**
+
 ```markdown
 ## Controllers
 
@@ -241,6 +262,7 @@ HTTP request handlers (thin layer).
 ```
 
 **services/README.md:**
+
 ```markdown
 ## Services
 
@@ -253,6 +275,7 @@ Business logic layer.
 ```
 
 **models/README.md:**
+
 ```markdown
 ## Models
 
@@ -265,6 +288,7 @@ Prisma database models and schemas.
 ```
 
 **middleware/README.md:**
+
 ```markdown
 ## Middleware
 
@@ -282,16 +306,19 @@ Express middleware functions.
 Add to the top of each source file:
 
 **TypeScript/JavaScript:**
+
 ```typescript
 // 📁 Folder structure changed, update ./README.md
 ```
 
 **Python:**
+
 ```python
 # 📁 Folder structure changed, update ./README.md
 ```
 
 **CSS/SCSS:**
+
 ```css
 /* 📁 Folder structure changed, update ./README.md */
 ```

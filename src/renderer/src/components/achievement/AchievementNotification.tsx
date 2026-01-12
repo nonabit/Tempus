@@ -81,10 +81,7 @@ export function AchievementNotification({ className }: AchievementNotificationPr
         >
           {/* 背景光晕效果 */}
           <motion.div
-            className={cn(
-              'absolute inset-0 rounded-xl opacity-30',
-              rarityConfig.bgColor
-            )}
+            className={cn('absolute inset-0 rounded-xl opacity-30', rarityConfig.bgColor)}
             animate={{
               opacity: [0.2, 0.4, 0.2]
             }}

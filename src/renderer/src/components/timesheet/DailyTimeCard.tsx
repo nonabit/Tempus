@@ -13,12 +13,7 @@ interface DailyTimeCardProps {
   className?: string
 }
 
-export function DailyTimeCard({
-  date,
-  onEdit,
-  onAdd,
-  className
-}: DailyTimeCardProps) {
+export function DailyTimeCard({ date, onEdit, onAdd, className }: DailyTimeCardProps) {
   const { getEntryByDate, deleteEntry, settings } = useTimeStore()
 
   const targetDate = date || dayjs().format('YYYY-MM-DD')
@@ -50,12 +45,7 @@ export function DailyTimeCard({
             </p>
           </div>
           {onAdd && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onAdd(targetDate)}
-              className="mt-2"
-            >
+            <Button variant="outline" size="sm" onClick={() => onAdd(targetDate)} className="mt-2">
               <IconPlus className="mr-1 h-4 w-4" />
               添加记录
             </Button>
@@ -79,9 +69,7 @@ export function DailyTimeCard({
           <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
             {isToday ? '今天' : formattedDate}
           </span>
-          <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-            {weekday}
-          </span>
+          <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">{weekday}</span>
         </div>
         <div className="flex items-center gap-1">
           {onEdit && (
@@ -128,9 +116,7 @@ export function DailyTimeCard({
               {workInfo.formattedTotal}
             </p>
             {workInfo.isOvertime && (
-              <p className="text-xs text-orange-500">
-                +{workInfo.formattedOvertime} 加班
-              </p>
+              <p className="text-xs text-orange-500">+{workInfo.formattedOvertime} 加班</p>
             )}
           </div>
 
@@ -183,9 +169,7 @@ export function DailyTimeCard({
 
       {/* 备注 */}
       {entry.note && (
-        <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
-          📝 {entry.note}
-        </p>
+        <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">📝 {entry.note}</p>
       )}
     </div>
   )

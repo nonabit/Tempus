@@ -30,12 +30,8 @@ export function TimeEntryForm({
   const [startTime, setStartTime] = React.useState(
     existingEntry?.startTime || settings.workStartTime
   )
-  const [endTime, setEndTime] = React.useState(
-    existingEntry?.endTime || settings.workEndTime
-  )
-  const [breakMinutes, setBreakMinutes] = React.useState(
-    existingEntry?.breakMinutes || 60
-  )
+  const [endTime, setEndTime] = React.useState(existingEntry?.endTime || settings.workEndTime)
+  const [breakMinutes, setBreakMinutes] = React.useState(existingEntry?.breakMinutes || 60)
   const [note, setNote] = React.useState(existingEntry?.note || '')
 
   // 计算工时
@@ -163,29 +159,18 @@ export function TimeEntryForm({
             今日工时：{calculatedHours.hours}h {calculatedHours.mins}m
           </p>
         ) : (
-          <p className="text-sm text-red-600 dark:text-red-400">
-            请检查时间设置
-          </p>
+          <p className="text-sm text-red-600 dark:text-red-400">请检查时间设置</p>
         )}
       </div>
 
       {/* 操作按钮 */}
       <div className="flex gap-3">
         {onCancel && (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onCancel}
-            className="flex-1"
-          >
+          <Button type="button" variant="outline" onClick={onCancel} className="flex-1">
             取消
           </Button>
         )}
-        <Button
-          type="submit"
-          disabled={!calculatedHours.isValid}
-          className="flex-1"
-        >
+        <Button type="submit" disabled={!calculatedHours.isValid} className="flex-1">
           {isEditing ? '保存修改' : '保存'}
         </Button>
       </div>

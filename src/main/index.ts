@@ -110,7 +110,9 @@ function registerDatabaseHandlers(): void {
   // 工时记录
   ipcMain.handle('db:getAllTimeEntries', () => getAllTimeEntries())
   ipcMain.handle('db:getTimeEntryByDate', (_, date: string) => getTimeEntryByDate(date))
-  ipcMain.handle('db:getTimeEntriesByMonth', (_, yearMonth: string) => getTimeEntriesByMonth(yearMonth))
+  ipcMain.handle('db:getTimeEntriesByMonth', (_, yearMonth: string) =>
+    getTimeEntriesByMonth(yearMonth)
+  )
   ipcMain.handle('db:upsertTimeEntry', (_, entry: TimeEntryRow) => upsertTimeEntry(entry))
   ipcMain.handle('db:deleteTimeEntry', (_, id: string) => deleteTimeEntry(id))
   ipcMain.handle('db:importTimeEntries', (_, entries: TimeEntryRow[]) => importTimeEntries(entries))
@@ -128,7 +130,9 @@ function registerDatabaseHandlers(): void {
 
   // 成就统计
   ipcMain.handle('db:getAchievementStats', () => getAchievementStats())
-  ipcMain.handle('db:saveAchievementStats', (_, stats: AchievementStatsRow) => saveAchievementStats(stats))
+  ipcMain.handle('db:saveAchievementStats', (_, stats: AchievementStatsRow) =>
+    saveAchievementStats(stats)
+  )
 
   // 打卡记录
   ipcMain.handle('db:getPunchRecordsByDateRange', (_, startTime: number, endTime: number) =>

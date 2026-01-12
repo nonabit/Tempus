@@ -1,7 +1,10 @@
 // 单个勋章组件
 
 import { motion } from 'motion/react'
-import type { AchievementDefinition, AchievementProgress as AchievementProgressType } from '@/types/achievement'
+import type {
+  AchievementDefinition,
+  AchievementProgress as AchievementProgressType
+} from '@/types/achievement'
 import { RARITY_CONFIG } from '@/data/achievements'
 import { cn } from '@/lib/utils'
 import { AchievementIcon } from './AchievementIcon'
@@ -99,13 +102,21 @@ export function AchievementBadge({
               className={cn(
                 'font-bold truncate',
                 config.title,
-                unlocked ? 'text-neutral-900 dark:text-white' : 'text-neutral-500 dark:text-neutral-400'
+                unlocked
+                  ? 'text-neutral-900 dark:text-white'
+                  : 'text-neutral-500 dark:text-neutral-400'
               )}
             >
               {achievement.name}
             </span>
             {unlocked && (
-              <span className={cn('text-xs px-1.5 py-0.5 rounded font-medium', rarityConfig.bgColor, rarityConfig.color)}>
+              <span
+                className={cn(
+                  'text-xs px-1.5 py-0.5 rounded font-medium',
+                  rarityConfig.bgColor,
+                  rarityConfig.color
+                )}
+              >
                 {rarityConfig.name}
               </span>
             )}
@@ -115,7 +126,9 @@ export function AchievementBadge({
             className={cn(
               'line-clamp-2 mb-2',
               config.desc,
-              unlocked ? 'text-neutral-600 dark:text-neutral-300' : 'text-neutral-400 dark:text-neutral-500'
+              unlocked
+                ? 'text-neutral-600 dark:text-neutral-300'
+                : 'text-neutral-400 dark:text-neutral-500'
             )}
           >
             {achievement.description}
