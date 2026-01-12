@@ -130,7 +130,9 @@ export function getAllTimeEntries(): TimeEntryRow[] {
 // 根据日期获取工时记录
 export function getTimeEntryByDate(date: string): TimeEntryRow | undefined {
   if (!db) return undefined
-  return db.prepare('SELECT * FROM time_entries WHERE date = ?').get(date) as TimeEntryRow | undefined
+  return db.prepare('SELECT * FROM time_entries WHERE date = ?').get(date) as
+    | TimeEntryRow
+    | undefined
 }
 
 // 根据月份获取工时记录
@@ -213,7 +215,9 @@ export function importTimeEntries(entries: TimeEntryRow[]): number {
 // 获取设置
 export function getSetting(key: string): string | undefined {
   if (!db) return undefined
-  const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as { value: string } | undefined
+  const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as
+    | { value: string }
+    | undefined
   return row?.value
 }
 
@@ -226,7 +230,10 @@ export function setSetting(key: string, value: string): void {
 // 获取所有设置
 export function getAllSettings(): Record<string, string> {
   if (!db) return {}
-  const rows = db.prepare('SELECT key, value FROM settings').all() as { key: string; value: string }[]
+  const rows = db.prepare('SELECT key, value FROM settings').all() as {
+    key: string
+    value: string
+  }[]
   return Object.fromEntries(rows.map((r) => [r.key, r.value]))
 }
 
@@ -249,11 +256,13 @@ export function getAllAchievementProgress(): AchievementProgressRow[] {
 // 保存成就进度
 export function saveAchievementProgress(progress: AchievementProgressRow): void {
   if (!db) return
-  db.prepare(`
+  db.prepare(
+    `
     INSERT OR REPLACE INTO achievement_progress
     (achievement_id, current_value, unlocked, unlocked_at, notified)
     VALUES (?, ?, ?, ?, ?)
-  `).run(
+  `
+  ).run(
     progress.achievement_id,
     progress.current_value,
     progress.unlocked,
@@ -276,13 +285,16 @@ export interface AchievementStatsRow {
 // 获取成就统计
 export function getAchievementStats(): AchievementStatsRow | undefined {
   if (!db) return undefined
-  return db.prepare('SELECT * FROM achievement_stats WHERE id = 1').get() as AchievementStatsRow | undefined
+  return db.prepare('SELECT * FROM achievement_stats WHERE id = 1').get() as
+    | AchievementStatsRow
+    | undefined
 }
 
 // 保存成就统计
 export function saveAchievementStats(stats: AchievementStatsRow): void {
   if (!db) return
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE achievement_stats SET
       total_work_minutes = ?,
       current_streak = ?,
@@ -291,7 +303,8 @@ export function saveAchievementStats(stats: AchievementStatsRow): void {
       early_arrival_streak = ?,
       last_entry_date = ?
     WHERE id = 1
-  `).run(
+  `
+  ).run(
     stats.total_work_minutes,
     stats.current_streak,
     stats.longest_streak,
@@ -314,7 +327,9 @@ export interface PunchRecordRow {
 export function getPunchRecordsByDateRange(startTime: number, endTime: number): PunchRecordRow[] {
   if (!db) return []
   return db
-    .prepare('SELECT * FROM punch_records WHERE punch_time >= ? AND punch_time <= ? ORDER BY punch_time')
+    .prepare(
+      'SELECT * FROM punch_records WHERE punch_time >= ? AND punch_time <= ? ORDER BY punch_time'
+    )
     .all(startTime, endTime) as PunchRecordRow[]
 }
 

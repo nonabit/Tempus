@@ -40,10 +40,7 @@ function fromDbRow(row: TimeEntryRow): TimeEntry {
 }
 
 // 计算工时信息
-export function calculateWorkHours(
-  entry: TimeEntry,
-  settings: UserSettings
-): WorkHoursInfo {
+export function calculateWorkHours(entry: TimeEntry, settings: UserSettings): WorkHoursInfo {
   const start = dayjs(`${entry.date} ${entry.startTime}`)
   const end = dayjs(`${entry.date} ${entry.endTime}`)
 
@@ -117,7 +114,8 @@ export function calculateIncome(
   let currentHourlyRate = settings.hourlyRate
   if (overtimeMinutes > 0) {
     const overtimeHours = Math.ceil(overtimeMinutes / 60)
-    currentHourlyRate = settings.hourlyRate * Math.max(0, 1 - settings.overtimePenaltyRate * overtimeHours)
+    currentHourlyRate =
+      settings.hourlyRate * Math.max(0, 1 - settings.overtimePenaltyRate * overtimeHours)
   }
 
   return {

@@ -277,9 +277,7 @@ function checkSingleAchievement(
       // 检查上个月是否满勤
       const lastMonth = dayjs().subtract(1, 'month')
       const workDaysInMonth = getWorkDaysInMonth(lastMonth.year(), lastMonth.month() + 1)
-      const entriesLastMonth = entries.filter((e) =>
-        e.date.startsWith(lastMonth.format('YYYY-MM'))
-      )
+      const entriesLastMonth = entries.filter((e) => e.date.startsWith(lastMonth.format('YYYY-MM')))
       const isFull = entriesLastMonth.length >= workDaysInMonth
       return {
         unlocked: isFull,

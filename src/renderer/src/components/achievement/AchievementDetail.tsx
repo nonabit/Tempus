@@ -74,7 +74,12 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
                     'w-24 h-24 rounded-full flex items-center justify-center',
                     'border-4',
                     unlocked
-                      ? cn('bg-gradient-to-br', rarityConfig.gradientFrom, rarityConfig.gradientTo, rarityConfig.borderColor)
+                      ? cn(
+                          'bg-gradient-to-br',
+                          rarityConfig.gradientFrom,
+                          rarityConfig.gradientTo,
+                          rarityConfig.borderColor
+                        )
                       : 'bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600'
                   )}
                 >

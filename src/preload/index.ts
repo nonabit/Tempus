@@ -45,13 +45,15 @@ const db = {
     ipcRenderer.invoke('db:getTimeEntryByDate', date),
   getTimeEntriesByMonth: (yearMonth: string): Promise<TimeEntryRow[]> =>
     ipcRenderer.invoke('db:getTimeEntriesByMonth', yearMonth),
-  upsertTimeEntry: (entry: TimeEntryRow): Promise<void> => ipcRenderer.invoke('db:upsertTimeEntry', entry),
+  upsertTimeEntry: (entry: TimeEntryRow): Promise<void> =>
+    ipcRenderer.invoke('db:upsertTimeEntry', entry),
   deleteTimeEntry: (id: string): Promise<void> => ipcRenderer.invoke('db:deleteTimeEntry', id),
   importTimeEntries: (entries: TimeEntryRow[]): Promise<number> =>
     ipcRenderer.invoke('db:importTimeEntries', entries),
 
   // 设置
-  getSetting: (key: string): Promise<string | undefined> => ipcRenderer.invoke('db:getSetting', key),
+  getSetting: (key: string): Promise<string | undefined> =>
+    ipcRenderer.invoke('db:getSetting', key),
   setSetting: (key: string, value: string): Promise<void> =>
     ipcRenderer.invoke('db:setSetting', key, value),
   getAllSettings: (): Promise<Record<string, string>> => ipcRenderer.invoke('db:getAllSettings'),

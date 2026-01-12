@@ -27,15 +27,19 @@ Create `/README.md` in the project root with:
 # Project Name
 
 ## AI Navigation Convention
+
 This project uses folder-level indexing:
+
 - Each major folder has README.md describing its role and file list
 - Source files include: `// 📁 Folder structure changed, update ./README.md`
 - When adding/removing/renaming files, update the folder's README.md
 
 ## Tech Stack
+
 [List key technologies, frameworks, libraries]
 
 ## Architecture
+
 - /src/components - UI components
 - /src/hooks - Custom React hooks
 - /src/api - API request layer
@@ -43,6 +47,7 @@ This project uses folder-level indexing:
 - /src/utils - Utility functions
 
 ## Key Design Decisions
+
 - [Important architectural choices]
 - [Conventions that AI should follow]
 ```
@@ -52,23 +57,28 @@ This project uses folder-level indexing:
 For each major module folder (components, hooks, api, pages, utils, etc.), create `README.md`:
 
 **Template:**
+
 ```markdown
 ## [Folder Name]
 
 [One-line description of folder's purpose]
 
 **[Category 1]:**
+
 - filename.ts - Brief description (what it does, who uses it)
 - filename.ts - Brief description
 
 **[Category 2]:**
+
 - filename.ts - Brief description
 
 **Conventions:**
+
 - [Any special rules for this folder]
 ```
 
 **Keep indices concise:**
+
 - 3-10 lines per folder ideal
 - Focus on "what" and "for whom", not implementation details
 - Group by function, not alphabetically
@@ -134,17 +144,20 @@ After initial training, AI should autonomously maintain indices:
 ## Why This Works
 
 **For AI tools:**
+
 - Quick orientation when entering a folder
 - Understanding of file relationships and dependencies
 - Trigger to update documentation when making changes
 - Maintains architectural awareness across sessions
 
 **For humans:**
+
 - Navigable project structure
 - Onboarding aid for new developers
 - High-level architecture map
 
 **For projects:**
+
 - Consistent organization pattern at every level
 - Self-documenting structure
 - Lightweight compared to heavy documentation systems

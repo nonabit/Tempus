@@ -58,6 +58,12 @@ src/
     │   ├── widgets/      # 趣味小组件
     │   │   ├── IncomeCard.tsx      # 实时收入卡片（水位线动画）
     │   │   └── FunStats.tsx        # 趣味统计卡片
+    │   ├── charts/       # 可视化图表组件
+    │   │   ├── ChartContainer.tsx  # 图表容器
+    │   │   ├── WeeklyBarChart.tsx  # 周工时柱状图
+    │   │   ├── MonthlyLineChart.tsx # 月工时折线图
+    │   │   ├── WorkHeatmap.tsx     # 年度工时热力图
+    │   │   └── OvertimeStats.tsx   # 加班统计卡片
     │   ├── settings/     # 设置相关组件
     │   │   └── ApiConfigForm.tsx   # API 配置表单
     │   ├── calendar-view.tsx   # 日历视图核心组件
@@ -71,7 +77,10 @@ src/
     │   └── companyApi.ts # 公司 API 同步服务
     ├── hooks/
     │   ├── useAchievementSync.ts  # 成就同步 Hook
-    │   └── useAppInit.ts          # 应用初始化 Hook
+    │   ├── useAppInit.ts          # 应用初始化 Hook
+    │   └── useWorkStats.ts        # 工时统计计算 Hook
+    ├── pages/
+    │   └── StatsPage.tsx          # 统计分析页面
     ├── data/
     │   └── achievements.ts  # 成就定义数据
     ├── types/            # TypeScript 类型定义
@@ -91,6 +100,7 @@ src/
 - **状态管理**: 使用 `zustand` 管理工时和成就系统状态
 - **本地存储**: 使用 `better-sqlite3` 进行 SQLite 持久化（主进程），通过 IPC 与渲染进程通信
 - **API 同步**: 支持从公司 REST API 同步打卡记录
+- **图表**: 使用 `recharts` 实现可视化统计图表
 
 ### 路径别名
 
@@ -104,13 +114,12 @@ src/
 
 ## AI 导航约定（必须遵守）
 
-本项目使用文件夹级别的 README.md 索引系统：
+本项目使用文件夹级别的 README.md 索引系统。
 
-**当你新增/删除/重命名源文件时，必须同时更新：**
-1. 该文件所在目录的 `README.md`（如果存在）
-2. 如果涉及顶级目录结构变化，更新本文件的目录结构部分
+**完成代码修改后，必须调用 `/ai-nav-structure` skill 来更新导航索引。**
 
-**示例：**
-- 新增 `src/renderer/src/components/ui/Modal.tsx` → 更新 `src/renderer/src/components/ui/README.md`
-- 删除某个组件 → 从对应目录的 README.md 中移除该条目
-- 新增依赖库 → 更新本文件的「核心技术点」部分
+该 skill 会指导你：
+- 新增文件时 → 更新所在目录的 README.md
+- 新增目录时 → 创建目录 README.md + 更新父目录索引
+- 删除/重命名文件时 → 更新对应 README.md
+- 新增依赖库时 → 更新本文件的「核心技术点」部分

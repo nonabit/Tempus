@@ -9,7 +9,8 @@ import dayjs from 'dayjs'
 import type { ApiConfig } from '@/types/api'
 
 export function ApiConfigForm(): React.ReactElement {
-  const { apiConfig, updateApiConfig, lastSyncTime, setLastSyncTime, isLoading } = useSettingsStore()
+  const { apiConfig, updateApiConfig, lastSyncTime, setLastSyncTime, isLoading } =
+    useSettingsStore()
   const { addEntry } = useTimeStore()
 
   const [isSyncing, setIsSyncing] = useState(false)
@@ -167,7 +168,9 @@ export function ApiConfigForm(): React.ReactElement {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1">响应数据路径</label>
+              <label className="block text-sm font-medium text-neutral-300 mb-1">
+                响应数据路径
+              </label>
               <input
                 type="text"
                 value={apiConfig.responsePath}
@@ -179,7 +182,9 @@ export function ApiConfigForm(): React.ReactElement {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">时间戳格式</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-1">
+                  时间戳格式
+                </label>
                 <select
                   value={apiConfig.timestampFormat}
                   onChange={(e) => handleConfigChange('timestampFormat', e.target.value)}
@@ -198,7 +203,9 @@ export function ApiConfigForm(): React.ReactElement {
                 <input
                   type="number"
                   value={apiConfig.defaultBreakMinutes}
-                  onChange={(e) => handleConfigChange('defaultBreakMinutes', parseInt(e.target.value) || 60)}
+                  onChange={(e) =>
+                    handleConfigChange('defaultBreakMinutes', parseInt(e.target.value) || 60)
+                  }
                   className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

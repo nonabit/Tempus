@@ -3,19 +3,14 @@ import { useState } from 'react'
 import dayjs from 'dayjs'
 import { motion } from 'motion/react'
 import { Sidebar, SidebarBody, SidebarLink } from '@/components/ui/sidebar'
-import {
-  IconChartBar,
-  IconCalendar,
-  IconSettings,
-  IconTrophy,
-  IconX
-} from '@tabler/icons-react'
+import { IconChartBar, IconCalendar, IconSettings, IconTrophy, IconX } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { CalendarView } from '@/components/calendar-view'
 import { TimeEntryForm } from '@/components/timesheet'
 import { AchievementWall } from '@/components/achievement'
 import { IncomeCard, FunStats } from '@/components/widgets'
 import { ApiConfigForm } from '@/components/settings/ApiConfigForm'
+import { StatsPage } from '@/pages/StatsPage'
 import { useTimeStore, calculateWorkHours } from '@/stores/timeStore'
 
 type ViewType = 'calendar' | 'achievement' | 'stats' | 'settings'
@@ -100,36 +95,58 @@ export default function SidebarDemo() {
           <>
             {/* 日历 */}
             <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden">
-                <CalendarView
-                  className="flex-1 h-full min-h-0"
-                  currentDate={date}
-                  onDateChange={setDate}
-                  onCellClick={handleCellClick}
-                  selectedDate={selectedDate || undefined}
-                  renderCell={(cellDate) => {
-                    const dateStr = dayjs(cellDate).format('YYYY-MM-DD')
-                    const entry = getEntryByDate(dateStr)
+              <CalendarView
+                className="flex-1 h-full min-h-0"
+                currentDate={date}
+                onDateChange={setDate}
+                onCellClick={handleCellClick}
+                selectedDate={selectedDate || undefined}
+                renderCell={(cellDate) => {
+                  const dateStr = dayjs(cellDate).format('YYYY-MM-DD')
+                  const entry = getEntryByDate(dateStr)
 
-                    // 没有记录则不显示任何内容
-                    if (!entry) return null
+                  // 没有记录则不显示任何内容
+                  if (!entry) return null
 
-                    // 有记录时显示工时
-                    const workInfo = calculateWorkHours(entry, settings)
-                    return (
-                      <div
-                        className={cn(
-                          'w-full rounded p-1 text-xs text-center',
-                          workInfo.isOvertime
-                            ? 'bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300'
-                            : 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'
-                        )}
-                      >
-                        {workInfo.formattedTotal}
-                      </div>
-                    )
-                  }}
-                />
-              </div>
+                  // 有记录时显示工时，颜色深浅反映工时长短
+                  const workInfo = calculateWorkHours(entry, settings)
+                  const standardMinutes = settings.standardWorkHours * 60
+
+                  // 根据工时长度选择颜色强度
+                  // <4h: 浅色, 4-8h: 正常, 8-10h: 深色, >10h: 警示色
+                  const getColorClass = () => {
+                    const { totalMinutes, overtimeMinutes } = workInfo
+                    if (totalMinutes < 240) {
+                      // < 4小时：浅绿色
+                      return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'
+                    } else if (totalMinutes <= standardMinutes) {
+                      // 4-8小时：正常绿色
+                      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                    } else if (overtimeMinutes <= 120) {
+                      // 8-10小时：深绿色
+                      return 'bg-emerald-200 text-emerald-800 dark:bg-emerald-800/40 dark:text-emerald-200'
+                    } else if (overtimeMinutes <= 240) {
+                      // 10-12小时：橙色警示
+                      return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                    } else {
+                      // >12小时：红色警示
+                      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                    }
+                  }
+
+                  return (
+                    <div
+                      className={cn(
+                        'w-full rounded p-1 text-xs text-center font-medium',
+                        getColorClass()
+                      )}
+                    >
+                      {workInfo.formattedTotal}
+                    </div>
+                  )
+                }}
+              />
+            </div>
 
             {/* 右侧详情面板 */}
             <motion.div
@@ -172,8 +189,8 @@ export default function SidebarDemo() {
         )}
 
         {activeView === 'stats' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden p-6">
-            <div className="text-center text-neutral-400">统计功能开发中...</div>
+          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-y-auto p-4">
+            <StatsPage />
           </div>
         )}
 
