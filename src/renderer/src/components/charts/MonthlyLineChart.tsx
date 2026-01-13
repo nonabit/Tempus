@@ -93,8 +93,8 @@ export function MonthlyLineChart({ className }: MonthlyLineChartProps) {
             className={cn(
               'rounded px-2 py-0.5 text-xs',
               monthOffset === 0
-                ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                ? 'bg-zhuqing/20 text-zhuqing dark:bg-blue-900/30 dark:text-blue-400'
+                : 'text-songyan hover:bg-chenwu dark:hover:bg-neutral-700'
             )}
           >
             本月
@@ -127,47 +127,47 @@ export function MonthlyLineChart({ className }: MonthlyLineChartProps) {
           <Tooltip content={<CustomTooltip />} />
           <ReferenceLine
             y={standardHours}
-            stroke="#3b82f6"
+            stroke="#7CB5C5"
             strokeDasharray="4 4"
             strokeWidth={1.5}
             label={{
               value: `${standardHours}h`,
               position: 'right',
-              fill: '#3b82f6',
+              fill: '#7CB5C5',
               fontSize: 10
             }}
           />
           <Line
             type="monotone"
             dataKey="hours"
-            stroke="#10b981"
+            stroke="#52C41A"
             strokeWidth={2}
-            dot={{ fill: '#10b981', r: 3 }}
-            activeDot={{ r: 5, fill: '#10b981' }}
+            dot={{ fill: '#52C41A', r: 3 }}
+            activeDot={{ r: 5, fill: '#52C41A' }}
             connectNulls={false}
           />
         </LineChart>
       </ResponsiveContainer>
 
       {/* 统计摘要 */}
-      <div className="mt-3 grid grid-cols-3 gap-2 border-t border-neutral-100 pt-3 dark:border-neutral-700">
+      <div className="mt-3 grid grid-cols-3 gap-2 border-t border-songyan/10 pt-3 dark:border-neutral-700">
         <div className="text-center">
-          <p className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+          <p className="text-lg font-semibold text-mose dark:text-neutral-100">
             {stats.workDays}
           </p>
-          <p className="text-[10px] text-neutral-500 dark:text-neutral-400">工作天数</p>
+          <p className="text-[10px] text-songyan dark:text-neutral-400">工作天数</p>
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+          <p className="text-lg font-semibold text-mose dark:text-neutral-100">
             {Math.round((stats.averageMinutes / 60) * 10) / 10}h
           </p>
-          <p className="text-[10px] text-neutral-500 dark:text-neutral-400">日均工时</p>
+          <p className="text-[10px] text-songyan dark:text-neutral-400">日均工时</p>
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold text-amber-600 dark:text-amber-400">
+          <p className="text-lg font-semibold text-qiuxiang dark:text-amber-400">
             {Math.round((stats.totalOvertimeMinutes / 60) * 10) / 10}h
           </p>
-          <p className="text-[10px] text-neutral-500 dark:text-neutral-400">总加班</p>
+          <p className="text-[10px] text-songyan dark:text-neutral-400">总加班</p>
         </div>
       </div>
     </ChartContainer>

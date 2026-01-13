@@ -71,7 +71,7 @@ export default function SidebarDemo() {
   return (
     <div
       className={cn(
-        'mx-auto flex w-full flex-1 flex-col overflow-hidden border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800',
+        'mx-auto flex w-full flex-1 flex-col overflow-hidden border border-songyan/20 bg-yuebai md:flex-row dark:border-neutral-700 dark:bg-neutral-800',
         'h-screen'
       )}
     >
@@ -94,7 +94,7 @@ export default function SidebarDemo() {
         {activeView === 'calendar' && (
           <>
             {/* 日历 */}
-            <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden">
+            <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-hidden">
               <CalendarView
                 className="flex-1 h-full min-h-0"
                 currentDate={date}
@@ -113,24 +113,24 @@ export default function SidebarDemo() {
                   const standardMinutes = settings.standardWorkHours * 60
 
                   // 根据工时长度选择颜色强度
-                  // <4h: 浅色, 4-8h: 正常, 8-10h: 深色, >10h: 警示色
+                  // <4h: 晨雾, 4-8h: 竹青浅, 8-10h: 竹青, 10-12h: 秋香, >12h: 丹砂
                   const getColorClass = () => {
                     const { totalMinutes, overtimeMinutes } = workInfo
                     if (totalMinutes < 240) {
-                      // < 4小时：浅绿色
-                      return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'
+                      // < 4小时：晨雾色
+                      return 'bg-chenwu text-zhuqing dark:bg-emerald-900/20 dark:text-emerald-400'
                     } else if (totalMinutes <= standardMinutes) {
-                      // 4-8小时：正常绿色
-                      return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                      // 4-8小时：竹青浅
+                      return 'bg-zhuqing/20 text-zhuqing dark:bg-emerald-900/30 dark:text-emerald-300'
                     } else if (overtimeMinutes <= 120) {
-                      // 8-10小时：深绿色
-                      return 'bg-emerald-200 text-emerald-800 dark:bg-emerald-800/40 dark:text-emerald-200'
+                      // 8-10小时：竹青
+                      return 'bg-zhuqing/40 text-zhuqing dark:bg-emerald-800/40 dark:text-emerald-200'
                     } else if (overtimeMinutes <= 240) {
-                      // 10-12小时：橙色警示
-                      return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                      // 10-12小时：秋香警示
+                      return 'bg-qiuxiang/30 text-qiuxiang dark:bg-amber-900/30 dark:text-amber-300'
                     } else {
-                      // >12小时：红色警示
-                      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                      // >12小时：丹砂警示
+                      return 'bg-dansha/30 text-dansha dark:bg-red-900/30 dark:text-red-300'
                     }
                   }
 
@@ -157,10 +157,10 @@ export default function SidebarDemo() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="shrink-0 overflow-hidden"
             >
-              <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 relative overflow-y-auto">
+              <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm p-4 relative overflow-y-auto">
                 <button
                   onClick={handleClosePanel}
-                  className="absolute right-3 top-3 rounded-lg p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700 z-10"
+                  className="absolute right-3 top-3 rounded-lg p-1 text-songyan hover:bg-chenwu hover:text-mose dark:hover:bg-neutral-700 z-10"
                 >
                   <IconX className="h-4 w-4" />
                 </button>
@@ -183,19 +183,19 @@ export default function SidebarDemo() {
         )}
 
         {activeView === 'achievement' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-hidden">
+          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-hidden">
             <AchievementWall />
           </div>
         )}
 
         {activeView === 'stats' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-y-auto p-4">
+          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-y-auto p-4">
             <StatsPage />
           </div>
         )}
 
         {activeView === 'settings' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-y-auto">
+          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-y-auto">
             <ApiConfigForm />
           </div>
         )}

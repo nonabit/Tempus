@@ -28,13 +28,13 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
   const standardMinutes = settings.standardWorkHours * 60
   const waterLevel = Math.min(100, (workInfo.totalMinutes / standardMinutes) * 100)
 
-  // 水位线颜色
+  // 水位线颜色 - 东方美学配色
   const waterColor =
     incomeInfo.status === 'normal'
-      ? 'from-emerald-400 to-emerald-500'
+      ? 'from-zhuqing to-zhuqing/80'
       : incomeInfo.status === 'decreasing'
-        ? 'from-amber-400 to-amber-500'
-        : 'from-red-400 to-red-500'
+        ? 'from-qiuxiang to-qiuxiang/80'
+        : 'from-dansha to-dansha/80'
 
   // 格式化工时显示
   const hours = Math.floor(workInfo.totalMinutes / 60)
@@ -49,7 +49,7 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800',
+        'relative overflow-hidden rounded-xl border border-songyan/20 bg-white dark:border-neutral-700 dark:bg-neutral-800',
         className
       )}
     >
@@ -82,14 +82,14 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
         {/* 标题 */}
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <IconCoin className="h-4 w-4 text-amber-500" />
-            <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            <IconCoin className="h-4 w-4 text-qiuxiang" />
+            <span className="text-xs font-medium text-songyan dark:text-neutral-400">
               {isToday ? '今日' : '当日'}收入
             </span>
           </div>
           {isWorking && (
-            <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-600 dark:bg-green-900/30 dark:text-green-400">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+            <span className="flex items-center gap-1 rounded-full bg-chenwu px-2 py-0.5 text-xs text-zhuqing dark:bg-green-900/30 dark:text-green-400">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-zhuqing" />
               工作中
             </span>
           )}
@@ -104,9 +104,9 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
             exit={{ opacity: 0, y: -5 }}
             className={cn(
               'mb-3 text-3xl font-bold tracking-tight',
-              incomeInfo.status === 'normal' && 'text-emerald-600 dark:text-emerald-400',
-              incomeInfo.status === 'decreasing' && 'text-amber-600 dark:text-amber-400',
-              incomeInfo.status === 'loss' && 'text-red-600 dark:text-red-400'
+              incomeInfo.status === 'normal' && 'text-zhuqing dark:text-emerald-400',
+              incomeInfo.status === 'decreasing' && 'text-qiuxiang dark:text-amber-400',
+              incomeInfo.status === 'loss' && 'text-dansha dark:text-red-400'
             )}
           >
             ¥{incomeInfo.income.toFixed(0)}
@@ -116,31 +116,31 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
         {/* 工时和时薪信息 */}
         <div className="grid grid-cols-2 gap-2">
           {/* 已工作时长 */}
-          <div className="flex items-center gap-2 rounded-lg bg-neutral-100/80 px-2 py-1.5 dark:bg-neutral-700/50">
-            <IconClock className="h-3.5 w-3.5 text-neutral-500" />
+          <div className="flex items-center gap-2 rounded-lg bg-chenwu/30 px-2 py-1.5 dark:bg-neutral-700/50">
+            <IconClock className="h-3.5 w-3.5 text-songyan" />
             <div>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">工时</p>
-              <p className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+              <p className="text-[10px] text-songyan dark:text-neutral-400">工时</p>
+              <p className="text-sm font-semibold text-mose dark:text-neutral-200">
                 {hours}h {minutes}m
               </p>
             </div>
           </div>
 
           {/* 当前时薪 */}
-          <div className="flex items-center gap-2 rounded-lg bg-neutral-100/80 px-2 py-1.5 dark:bg-neutral-700/50">
+          <div className="flex items-center gap-2 rounded-lg bg-chenwu/30 px-2 py-1.5 dark:bg-neutral-700/50">
             {incomeInfo.status === 'decreasing' || incomeInfo.status === 'loss' ? (
-              <IconTrendingDown className="h-3.5 w-3.5 text-amber-500" />
+              <IconTrendingDown className="h-3.5 w-3.5 text-qiuxiang" />
             ) : (
-              <IconCoin className="h-3.5 w-3.5 text-neutral-500" />
+              <IconCoin className="h-3.5 w-3.5 text-songyan" />
             )}
             <div>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-400">时薪</p>
+              <p className="text-[10px] text-songyan dark:text-neutral-400">时薪</p>
               <p
                 className={cn(
                   'text-sm font-semibold',
-                  incomeInfo.status === 'normal' && 'text-neutral-800 dark:text-neutral-200',
-                  incomeInfo.status === 'decreasing' && 'text-amber-600 dark:text-amber-400',
-                  incomeInfo.status === 'loss' && 'text-red-600 dark:text-red-400'
+                  incomeInfo.status === 'normal' && 'text-mose dark:text-neutral-200',
+                  incomeInfo.status === 'decreasing' && 'text-qiuxiang dark:text-amber-400',
+                  incomeInfo.status === 'loss' && 'text-dansha dark:text-red-400'
                 )}
               >
                 ¥{incomeInfo.hourlyRate}
@@ -154,9 +154,9 @@ export function IncomeCard({ date, className }: IncomeCardProps) {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="mt-2 rounded-lg bg-amber-50 px-2 py-1.5 dark:bg-amber-900/20"
+            className="mt-2 rounded-lg bg-qiuxiang/10 px-2 py-1.5 dark:bg-amber-900/20"
           >
-            <p className="text-[10px] text-amber-600 dark:text-amber-400">
+            <p className="text-[10px] text-qiuxiang dark:text-amber-400">
               已加班 {workInfo.formattedOvertime}，时薪递减中
             </p>
           </motion.div>

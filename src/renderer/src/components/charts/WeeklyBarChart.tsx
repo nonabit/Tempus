@@ -108,8 +108,8 @@ export function WeeklyBarChart({ className }: WeeklyBarChartProps) {
             className={cn(
               'rounded px-2 py-0.5 text-xs',
               weekOffset === 0
-                ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                ? 'bg-zhuqing/20 text-zhuqing dark:bg-blue-900/30 dark:text-blue-400'
+                : 'text-songyan hover:bg-chenwu dark:hover:bg-neutral-700'
             )}
           >
             本周
@@ -141,30 +141,30 @@ export function WeeklyBarChart({ className }: WeeklyBarChartProps) {
           <Tooltip content={<CustomTooltip />} />
           <ReferenceLine
             y={standardHours}
-            stroke="#3b82f6"
+            stroke="#7CB5C5"
             strokeDasharray="4 4"
             strokeWidth={1.5}
             label={{
               value: `${standardHours}h`,
               position: 'right',
-              fill: '#3b82f6',
+              fill: '#7CB5C5',
               fontSize: 10
             }}
           />
-          <Bar dataKey="normal" stackId="a" fill="#60a5fa" radius={[0, 0, 0, 0]} />
-          <Bar dataKey="overtime" stackId="a" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="normal" stackId="a" fill="#52C41A" radius={[0, 0, 0, 0]} />
+          <Bar dataKey="overtime" stackId="a" fill="#F9C74F" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
 
       {/* 图例 */}
       <div className="mt-2 flex justify-center gap-4">
         <div className="flex items-center gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-sm bg-blue-400" />
-          <span className="text-[10px] text-neutral-500 dark:text-neutral-400">正常工时</span>
+          <div className="h-2.5 w-2.5 rounded-sm bg-zhuqing" />
+          <span className="text-[10px] text-songyan dark:text-neutral-400">正常工时</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-sm bg-amber-500" />
-          <span className="text-[10px] text-neutral-500 dark:text-neutral-400">加班</span>
+          <div className="h-2.5 w-2.5 rounded-sm bg-qiuxiang" />
+          <span className="text-[10px] text-songyan dark:text-neutral-400">加班</span>
         </div>
       </div>
     </ChartContainer>

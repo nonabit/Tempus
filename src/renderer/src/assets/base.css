@@ -21,6 +21,20 @@
   --ev-button-alt-hover-border: transparent;
   --ev-button-alt-hover-text: var(--ev-c-text-1);
   --ev-button-alt-hover-bg: var(--ev-c-gray-2);
+
+  /* 东方美学核心色板 */
+  --tempus-yuebai: #F7F9FA;      /* 月白 - 主背景 */
+  --tempus-mose: #2C3E50;        /* 墨色 - 主文字 */
+  --tempus-songyan: #95A5A6;     /* 松烟 - 次要文字 */
+  --tempus-zhuqing: #52C41A;     /* 竹青 - 主题色 */
+  --tempus-chenwu: #D5E8D4;      /* 晨雾 - 浅色背景 */
+  --tempus-qiuxiang: #F9C74F;    /* 秋香 - 警示色 */
+  --tempus-dansha: #E76F51;      /* 丹砂 - 错误色 */
+  --tempus-tianshuibi: #7CB5C5;  /* 天水碧 - 链接色 */
+
+  /* 字体变量 */
+  --font-serif-cn: 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans-cn: 'PingFang SC', -apple-system, sans-serif;
 }
 
 :root {

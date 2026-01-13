@@ -84,7 +84,7 @@ export function CalendarView({
     <div className={cn('flex flex-col gap-4 p-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+        <h2 className="text-xl font-semibold text-mose dark:text-neutral-100">
           {internalDate.format('YYYY年 M月')}
         </h2>
         <div className="flex gap-2">
@@ -110,12 +110,12 @@ export function CalendarView({
       </div>
 
       {/* Grid */}
-      <div className="flex-1 grid grid-cols-7 grid-rows-[auto_repeat(6,1fr)] border-l border-t border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden min-h-0">
+      <div className="flex-1 grid grid-cols-7 grid-rows-[auto_repeat(6,1fr)] border-l border-t border-songyan/20 dark:border-neutral-700 rounded-lg overflow-hidden min-h-0">
         {/* Weekday headers */}
         {weekDays.map((day) => (
           <div
             key={day}
-            className="border-b border-r border-neutral-200 bg-neutral-50 py-2 text-center text-sm font-medium text-neutral-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400"
+            className="border-b border-r border-songyan/20 bg-yuebai py-2 text-center text-sm font-medium text-songyan dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400"
           >
             {day}
           </div>
@@ -144,26 +144,26 @@ export function CalendarView({
           )
 
           let bottomText = lunar.getDayInChinese()
-          let bottomTextColor = 'text-neutral-400 dark:text-neutral-500'
+          let bottomTextColor = 'text-songyan dark:text-neutral-500'
           let isHoliday = false
 
           const jieQi = lunar.getJieQi()
           if (jieQi) {
             bottomText = jieQi
-            bottomTextColor = 'text-green-600 dark:text-green-400'
+            bottomTextColor = 'text-zhuqing dark:text-green-400'
           }
 
           if (holiday) {
             bottomText = holiday.getName()
             isHoliday = true
-            bottomTextColor = 'text-blue-600 dark:text-blue-400'
+            bottomTextColor = 'text-tianshuibi dark:text-blue-400'
           }
 
           // Special handling for "初一" to show Month
           if (lunar.getDay() === 1) {
             bottomText = lunar.getMonthInChinese() + '月'
             if (!isHoliday && !jieQi) {
-              bottomTextColor = 'text-amber-600 dark:text-amber-500'
+              bottomTextColor = 'text-qiuxiang dark:text-amber-500'
             }
           }
 
@@ -183,16 +183,16 @@ export function CalendarView({
               key={dayItem.toString()}
               onClick={() => onCellClick?.(dateObj)}
               className={cn(
-                'group relative border-b border-r border-neutral-200 p-2 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0 cursor-pointer',
-                !isCurrentMonth && 'bg-neutral-50/50 dark:bg-neutral-900/50',
-                isToday && !isSelected && 'bg-blue-50/30 dark:bg-blue-900/10',
-                isSelected && 'bg-blue-100 dark:bg-blue-900/30 ring-2 ring-inset ring-blue-500',
+                'group relative border-b border-r border-songyan/20 p-2 transition-colors hover:bg-chenwu/30 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0 cursor-pointer',
+                !isCurrentMonth && 'bg-yuebai/50 dark:bg-neutral-900/50',
+                isToday && !isSelected && 'bg-chenwu/30 dark:bg-blue-900/10',
+                isSelected && 'bg-chenwu dark:bg-blue-900/30 ring-2 ring-inset ring-zhuqing',
                 isWeekend &&
                   isCurrentMonth &&
                   !isToday &&
                   !isSelected &&
                   !isLastSatMark &&
-                  'bg-neutral-50/30 dark:bg-neutral-800/20',
+                  'bg-yuebai/30 dark:bg-neutral-800/20',
                 isLastSatMark && !isSelected && 'bg-purple-50 dark:bg-purple-900/20'
               )}
             >
@@ -201,12 +201,12 @@ export function CalendarView({
                   className={cn(
                     'flex h-7 w-7 items-center justify-center rounded-full text-lg font-medium',
                     isToday
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-zhuqing text-white'
                       : isCurrentMonth
                         ? isWeekend
-                          ? 'text-red-500 dark:text-red-400'
-                          : 'text-neutral-900 dark:text-neutral-100'
-                        : 'text-neutral-400 dark:text-neutral-600'
+                          ? 'text-dansha/80 dark:text-red-400'
+                          : 'text-mose dark:text-neutral-100'
+                        : 'text-songyan/60 dark:text-neutral-600'
                   )}
                 >
                   {dayItem.date()}
@@ -229,8 +229,8 @@ export function CalendarView({
                       className={cn(
                         'text-[9px] px-1 rounded leading-none py-0.5',
                         holiday.isWork()
-                          ? 'bg-neutral-200 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300' // 班
-                          : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' // 休
+                          ? 'bg-songyan/20 text-mose dark:bg-neutral-700 dark:text-neutral-300' // 班
+                          : 'bg-dansha/20 text-dansha dark:bg-red-900/30 dark:text-red-400' // 休
                       )}
                     >
                       {holiday.isWork() ? '班' : '休'}
