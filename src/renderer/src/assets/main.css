@@ -1,6 +1,18 @@
 @import './base.css';
 @import 'tailwindcss';
 
+/* 东方美学 Tailwind 主题扩展 */
+@theme {
+  --color-yuebai: #F7F9FA;
+  --color-mose: #2C3E50;
+  --color-songyan: #95A5A6;
+  --color-zhuqing: #52C41A;
+  --color-chenwu: #D5E8D4;
+  --color-qiuxiang: #F9C74F;
+  --color-dansha: #E76F51;
+  --color-tianshuibi: #7CB5C5;
+}
+
 body {
   margin: 0;
   padding: 0;

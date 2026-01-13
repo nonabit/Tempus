@@ -194,7 +194,7 @@ export const CATEGORY_CONFIG = {
   special: { name: '特殊成就', icon: 'star' }
 }
 
-// 稀有度配置（颜色和显示名称）
+// 稀有度配置（颜色和显示名称）- 东方美学配色
 export const RARITY_CONFIG: Record<
   AchievementRarity,
   {
@@ -208,19 +208,19 @@ export const RARITY_CONFIG: Record<
 > = {
   common: {
     name: '普通',
-    color: 'text-green-600 dark:text-green-400',
-    bgColor: 'bg-green-50 dark:bg-green-900/20',
-    borderColor: 'border-green-200 dark:border-green-800',
-    gradientFrom: 'from-green-50',
-    gradientTo: 'to-green-100'
+    color: 'text-zhuqing dark:text-green-400',
+    bgColor: 'bg-chenwu dark:bg-green-900/20',
+    borderColor: 'border-zhuqing/30 dark:border-green-800',
+    gradientFrom: 'from-chenwu',
+    gradientTo: 'to-yuebai'
   },
   rare: {
     name: '稀有',
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-    borderColor: 'border-blue-200 dark:border-blue-800',
-    gradientFrom: 'from-blue-50',
-    gradientTo: 'to-blue-100'
+    color: 'text-tianshuibi dark:text-blue-400',
+    bgColor: 'bg-tianshuibi/10 dark:bg-blue-900/20',
+    borderColor: 'border-tianshuibi/30 dark:border-blue-800',
+    gradientFrom: 'from-tianshuibi/10',
+    gradientTo: 'to-yuebai'
   },
   epic: {
     name: '史诗',
@@ -228,14 +228,14 @@ export const RARITY_CONFIG: Record<
     bgColor: 'bg-purple-50 dark:bg-purple-900/20',
     borderColor: 'border-purple-200 dark:border-purple-800',
     gradientFrom: 'from-purple-50',
-    gradientTo: 'to-purple-100'
+    gradientTo: 'to-yuebai'
   },
   legendary: {
     name: '传说',
-    color: 'text-amber-600 dark:text-amber-400',
-    bgColor: 'bg-amber-50 dark:bg-amber-900/20',
-    borderColor: 'border-amber-200 dark:border-amber-800',
-    gradientFrom: 'from-amber-50',
-    gradientTo: 'to-amber-100'
+    color: 'text-qiuxiang dark:text-amber-400',
+    bgColor: 'bg-qiuxiang/10 dark:bg-amber-900/20',
+    borderColor: 'border-qiuxiang/30 dark:border-amber-800',
+    gradientFrom: 'from-qiuxiang/10',
+    gradientTo: 'to-yuebai'
   }
 }

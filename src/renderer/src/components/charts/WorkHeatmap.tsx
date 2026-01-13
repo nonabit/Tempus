@@ -10,13 +10,14 @@ interface WorkHeatmapProps {
   className?: string
 }
 
-// 热力图颜色等级
+// 热力图颜色等级 - 东方美学配色
 const LEVEL_COLORS = [
-  'bg-neutral-100 dark:bg-neutral-700', // 0: 无数据
-  'bg-emerald-200 dark:bg-emerald-900', // 1: <4h
-  'bg-emerald-400 dark:bg-emerald-700', // 2: 4-8h
-  'bg-emerald-600 dark:bg-emerald-500', // 3: 8-10h
-  'bg-amber-500 dark:bg-amber-600' // 4: >10h（加班严重）
+  'bg-yuebai dark:bg-neutral-700', // 0: 无数据
+  'bg-chenwu dark:bg-emerald-900', // 1: <4h
+  'bg-zhuqing/30 dark:bg-emerald-700', // 2: 4-6h
+  'bg-zhuqing/60 dark:bg-emerald-500', // 3: 6-8h
+  'bg-zhuqing dark:bg-emerald-400', // 4: 8-10h
+  'bg-qiuxiang dark:bg-amber-600' // 5: >10h（加班严重）
 ]
 
 const MONTH_LABELS = [
@@ -142,8 +143,8 @@ export function WorkHeatmap({ className }: WorkHeatmapProps) {
             className={cn(
               'rounded px-2 py-0.5 text-xs',
               yearOffset === 0
-                ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                ? 'bg-zhuqing/20 text-zhuqing dark:bg-blue-900/30 dark:text-blue-400'
+                : 'text-songyan hover:bg-chenwu dark:hover:bg-neutral-700'
             )}
           >
             今年
@@ -163,7 +164,7 @@ export function WorkHeatmap({ className }: WorkHeatmapProps) {
           {monthPositions.map(({ month, weekIndex }) => (
             <span
               key={`${month}-${weekIndex}`}
-              className="text-[10px] text-neutral-400"
+              className="text-[10px] text-songyan"
               style={{
                 marginLeft:
                   weekIndex === 0
@@ -181,7 +182,7 @@ export function WorkHeatmap({ className }: WorkHeatmapProps) {
           {/* 周几标签 */}
           <div className="mr-1 flex flex-col justify-around py-[2px]">
             {WEEKDAY_LABELS.map((label) => (
-              <span key={label} className="text-[10px] text-neutral-400 leading-[10px]">
+              <span key={label} className="text-[10px] text-songyan leading-[10px]">
                 {label}
               </span>
             ))}
@@ -213,11 +214,11 @@ export function WorkHeatmap({ className }: WorkHeatmapProps) {
 
       {/* 图例 */}
       <div className="mt-3 flex items-center justify-end gap-1">
-        <span className="text-[10px] text-neutral-400">少</span>
-        {LEVEL_COLORS.slice(0, 5).map((color, i) => (
+        <span className="text-[10px] text-songyan">少</span>
+        {LEVEL_COLORS.slice(0, 6).map((color, i) => (
           <div key={i} className={cn('h-[10px] w-[10px] rounded-[2px]', color)} />
         ))}
-        <span className="text-[10px] text-neutral-400">多</span>
+        <span className="text-[10px] text-songyan">多</span>
       </div>
     </ChartContainer>
   )
