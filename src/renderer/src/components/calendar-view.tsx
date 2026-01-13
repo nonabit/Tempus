@@ -3,6 +3,7 @@
 import * as React from 'react'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import { motion, AnimatePresence } from 'motion/react'
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -43,20 +44,38 @@ export function CalendarView({
 }: CalendarViewProps) {
   // Use internal state if not controlled, but generally expect controlled usage for date
   const [internalDate, setInternalDate] = React.useState(dayjs(currentDate))
+  // 农历月份别名显示状态
+  const [lunarMonthLabel, setLunarMonthLabel] = React.useState<string | null>(null)
+  // 用于触发墨迹渐显动画的 key
+  const [animationKey, setAnimationKey] = React.useState(0)
 
   React.useEffect(() => {
     setInternalDate(dayjs(currentDate).locale('zh-cn'))
   }, [currentDate])
 
+  // 获取农历月份别名
+  const getLunarMonthLabel = (date: dayjs.Dayjs) => {
+    const solar = Solar.fromYmd(date.year(), date.month() + 1, 15)
+    return solar.getLunar().getMonthInChinese() + '月'
+  }
+
   const handlePrevMonth = () => {
     const newDate = internalDate.subtract(1, 'month')
     setInternalDate(newDate)
+    setAnimationKey((k) => k + 1)
+    // 显示农历月份别名
+    setLunarMonthLabel(getLunarMonthLabel(newDate))
+    setTimeout(() => setLunarMonthLabel(null), 800)
     onDateChange?.(newDate.toDate())
   }
 
   const handleNextMonth = () => {
     const newDate = internalDate.add(1, 'month')
     setInternalDate(newDate)
+    setAnimationKey((k) => k + 1)
+    // 显示农历月份别名
+    setLunarMonthLabel(getLunarMonthLabel(newDate))
+    setTimeout(() => setLunarMonthLabel(null), 800)
     onDateChange?.(newDate.toDate())
   }
 
@@ -83,10 +102,23 @@ export function CalendarView({
   return (
     <div className={cn('flex flex-col gap-4 p-4', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative">
         <h2 className="text-xl font-semibold text-mose dark:text-neutral-100">
           {internalDate.format('YYYY年 M月')}
         </h2>
+        {/* 农历月份别名 */}
+        <AnimatePresence>
+          {lunarMonthLabel && (
+            <motion.span
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute left-1/2 -translate-x-1/2 text-lg text-qiuxiang font-medium"
+            >
+              {lunarMonthLabel}
+            </motion.span>
+          )}
+        </AnimatePresence>
         <div className="flex gap-2">
           <Button
             variant="outline"
@@ -122,13 +154,16 @@ export function CalendarView({
         ))}
 
         {/* Days */}
-        {days.map((dayItem) => {
+        {days.map((dayItem, index) => {
           const isCurrentMonth = dayItem.month() === internalDate.month()
           const isToday = dayItem.isSame(dayjs(), 'day')
           const dateObj = dayItem.toDate()
           const dayOfWeek = dayItem.day()
           const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
           const isSelected = selectedDate === dayItem.format('YYYY-MM-DD')
+          // 墨迹渐显动画延迟（按行计算）
+          const rowIndex = Math.floor(index / 7)
+          const animDelay = rowIndex * 0.03
 
           // Lunar / Solar / Holiday Calc
           const solar = Solar.fromYmd(
@@ -179,8 +214,11 @@ export function CalendarView({
           }
 
           return (
-            <div
-              key={dayItem.toString()}
+            <motion.div
+              key={`${animationKey}-${dayItem.toString()}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: animDelay, duration: 0.3 }}
               onClick={() => onCellClick?.(dateObj)}
               className={cn(
                 'group relative border-b border-r border-songyan/20 p-2 transition-colors hover:bg-chenwu/30 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0 cursor-pointer',
@@ -201,7 +239,7 @@ export function CalendarView({
                   className={cn(
                     'flex h-7 w-7 items-center justify-center rounded-full text-lg font-medium',
                     isToday
-                      ? 'bg-zhuqing text-white'
+                      ? 'ring-2 ring-zhuqing text-zhuqing bg-transparent'
                       : isCurrentMonth
                         ? isWeekend
                           ? 'text-dansha/80 dark:text-red-400'
@@ -238,7 +276,7 @@ export function CalendarView({
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           )
         })}
       </div>
