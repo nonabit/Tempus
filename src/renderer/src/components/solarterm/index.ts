@@ -1,0 +1,1 @@
+export { SolarTermCard } from './SolarTermCard'
