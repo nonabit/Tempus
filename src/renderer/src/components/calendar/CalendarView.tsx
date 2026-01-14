@@ -267,7 +267,7 @@ export function CalendarView({
                   )}
                 </div>
                 {/* 阴历日期 + 节气 */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 mt-3">
                   <span className={cn('text-[10px] font-medium leading-none font-serif-title', lunarTextColor)}>
                     {lunarText}
                   </span>
@@ -280,7 +280,7 @@ export function CalendarView({
               </div>
 
               {/* Custom Card Slot */}
-              <div className="flex-1 min-h-0 overflow-y-auto mt-1 relative z-10 no-scrollbar">
+              <div className="flex-1 min-h-0 overflow-y-auto mt-3 relative z-10 no-scrollbar">
                 {renderCell ? renderCell(dateObj) : null}
               </div>
             </motion.div>

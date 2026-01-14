@@ -202,3 +202,22 @@ code {
     display: none;
   }
 }
+
+/* 宣纸纹理效果 */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('./textures/xuan-paper.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
