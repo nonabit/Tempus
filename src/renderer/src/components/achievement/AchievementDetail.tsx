@@ -37,7 +37,7 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-ink/10 backdrop-blur-sm z-40"
           />
 
           {/* 弹窗内容 */}
@@ -51,15 +51,15 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
             <div
               className={cn(
                 'relative w-full max-w-md p-6 rounded-2xl pointer-events-auto',
-                'bg-white dark:bg-neutral-800',
+                'bg-paper',
                 'border-2 shadow-2xl',
-                unlocked ? rarityConfig.borderColor : 'border-neutral-200 dark:border-neutral-700'
+                unlocked ? rarityConfig.borderColor : 'border-indigo/20'
               )}
             >
               {/* 关闭按钮 */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1.5 rounded-lg text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700 transition-colors"
+                className="absolute top-4 right-4 p-1.5 rounded-lg text-indigo/40 hover:bg-willow/10 hover:text-ink transition-colors"
               >
                 <IconX className="w-5 h-5" />
               </button>
@@ -75,19 +75,19 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
                     'border-4',
                     unlocked
                       ? cn(
-                          'bg-gradient-to-br',
-                          rarityConfig.gradientFrom,
-                          rarityConfig.gradientTo,
-                          rarityConfig.borderColor
-                        )
-                      : 'bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600'
+                        'bg-gradient-to-br',
+                        rarityConfig.gradientFrom,
+                        rarityConfig.gradientTo,
+                        rarityConfig.borderColor
+                      )
+                      : 'bg-indigo/5 border-indigo/10'
                   )}
                 >
                   <AchievementIcon
                     icon={achievement.icon}
                     className={cn(
                       'w-12 h-12',
-                      unlocked ? rarityConfig.color : 'text-neutral-400 dark:text-neutral-500'
+                      unlocked ? rarityConfig.color : 'text-indigo/20'
                     )}
                   />
                 </motion.div>
@@ -95,15 +95,15 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
 
               {/* 成就信息 */}
               <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-ink mb-2 font-serif-title">
                   {achievement.name}
                 </h3>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-3">
+                <p className="text-indigo/80 mb-3 font-serif-title">
                   {achievement.description}
                 </p>
                 <span
                   className={cn(
-                    'inline-block px-3 py-1 rounded-full text-sm font-medium',
+                    'inline-block px-3 py-1 rounded-full text-sm font-medium font-serif-title',
                     rarityConfig.bgColor,
                     rarityConfig.color
                   )}
@@ -115,19 +115,19 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
               {/* 进度或解锁时间 */}
               {unlocked ? (
                 <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cinnabar/10 text-cinnabar">
                     <span className="text-lg">✓</span>
-                    <span className="font-medium">已解锁</span>
+                    <span className="font-medium font-serif-title">已解锁</span>
                   </div>
                   {unlockedAt && (
-                    <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-500">
+                    <p className="mt-2 text-sm text-indigo/50 font-serif-num">
                       解锁时间: {new Date(unlockedAt).toLocaleString('zh-CN')}
                     </p>
                   )}
                 </div>
               ) : (
                 <div>
-                  <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                  <div className="text-center text-sm text-indigo/60 mb-2 font-serif-title">
                     当前进度
                   </div>
                   <AchievementProgress
@@ -136,7 +136,7 @@ export function AchievementDetail({ achievementId, open, onClose }: AchievementD
                     rarity={achievement.rarity}
                     showLabel={true}
                   />
-                  <div className="text-center mt-3 text-sm text-neutral-400 dark:text-neutral-500">
+                  <div className="text-center mt-3 text-sm text-indigo/50 font-serif-num">
                     还差 {achievement.condition.target - currentValue}{' '}
                     {getConditionUnit(achievement.condition.type)}
                   </div>

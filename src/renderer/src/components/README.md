@@ -4,8 +4,8 @@ React UI 组件，包含基础 UI 组件和业务组件。
 
 **页面/布局组件：**
 
-- sidebar-demo.tsx - 主界面布局，包含侧边栏和视图切换
-- calendar-view.tsx - 日历视图组件，支持农历、节气、节假日显示
+- layout/ - 主界面布局组件（SidebarDemo）
+- calendar/ - 日历视图组件，支持农历、节气、节假日显示
 
 **业务组件：**
 
@@ -22,6 +22,6 @@ React UI 组件，包含基础 UI 组件和业务组件。
 
 **约定：**
 
-- 页面级组件使用 kebab-case 命名（如 sidebar-demo.tsx）
+- 所有组件按功能模块分组放在子目录中
 - 通用组件放在 ui/ 目录
 - 业务组件按功能模块分组（如 timesheet/）

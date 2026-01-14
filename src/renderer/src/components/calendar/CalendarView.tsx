@@ -31,6 +31,11 @@ interface CalendarViewProps {
    * Useful for displaying work hours or other data.
    */
   renderCell?: (date: Date) => React.ReactNode
+  /**
+   * Custom props for the cell container.
+   * Useful for applying background styles (e.g. ink wash effect).
+   */
+  getCellProps?: (date: Date) => React.HTMLAttributes<HTMLDivElement>
   className?: string
 }
 
@@ -40,6 +45,7 @@ export function CalendarView({
   selectedDate,
   onCellClick,
   renderCell,
+  getCellProps,
   className
 }: CalendarViewProps) {
   // Use internal state if not controlled, but generally expect controlled usage for date
@@ -103,7 +109,7 @@ export function CalendarView({
     <div className={cn('flex flex-col gap-4 p-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between relative">
-        <h2 className="text-xl font-semibold text-mose dark:text-neutral-100">
+        <h2 className="text-xl font-semibold text-ink font-serif-title">
           {internalDate.format('YYYY年 M月')}
         </h2>
         {/* 农历月份别名 */}
@@ -113,7 +119,7 @@ export function CalendarView({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute left-1/2 -translate-x-1/2 text-lg text-qiuxiang font-medium"
+              className="absolute left-1/2 -translate-x-1/2 text-lg text-willow font-medium font-serif-title"
             >
               {lunarMonthLabel}
             </motion.span>
@@ -124,30 +130,30 @@ export function CalendarView({
             variant="outline"
             size="icon"
             onClick={handlePrevMonth}
-            className="h-8 w-8 rounded-md"
+            className="h-8 w-8 rounded-md border-indigo/20 hover:bg-willow/10"
             aria-label="Previous month"
           >
-            <IconChevronLeft className="h-4 w-4 text-black" />
+            <IconChevronLeft className="h-4 w-4 text-ink" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={handleNextMonth}
-            className="h-8 w-8 rounded-md"
+            className="h-8 w-8 rounded-md border-indigo/20 hover:bg-willow/10"
             aria-label="Next month"
           >
-            <IconChevronRight className="h-4 w-4 text-black" />
+            <IconChevronRight className="h-4 w-4 text-ink" />
           </Button>
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="flex-1 grid grid-cols-7 grid-rows-[auto_repeat(6,1fr)] border-l border-t border-songyan/20 dark:border-neutral-700 rounded-lg overflow-hidden min-h-0">
+      {/* Grid - No borders (Borderless Design) */}
+      <div className="flex-1 grid grid-cols-7 grid-rows-[auto_repeat(6,1fr)] rounded-lg overflow-hidden min-h-0">
         {/* Weekday headers */}
         {weekDays.map((day) => (
           <div
             key={day}
-            className="border-b border-r border-songyan/20 bg-yuebai py-2 text-center text-sm font-medium text-songyan dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400"
+            className="bg-paper py-2 text-center text-sm font-medium text-indigo font-serif-title"
           >
             {day}
           </div>
@@ -165,6 +171,10 @@ export function CalendarView({
           const rowIndex = Math.floor(index / 7)
           const animDelay = rowIndex * 0.03
 
+          // Get custom props from parent
+          const customProps = getCellProps?.(dateObj) || {}
+          const { className: customClassName, ...restCustomProps } = customProps
+
           // Lunar / Solar / Holiday Calc
           const solar = Solar.fromYmd(
             dateObj.getFullYear(),
@@ -178,40 +188,21 @@ export function CalendarView({
             dateObj.getDate()
           )
 
-          let bottomText = lunar.getDayInChinese()
-          let bottomTextColor = 'text-songyan dark:text-neutral-500'
-          let isHoliday = false
+          // 阴历日期始终显示
+          let lunarText = lunar.getDayInChinese()
+          let lunarTextColor = 'text-indigo/60'
+
+          // 初一显示月份
+          if (lunar.getDay() === 1) {
+            lunarText = lunar.getMonthInChinese() + '月'
+            lunarTextColor = 'text-cinnabar'
+          }
 
           const jieQi = lunar.getJieQi()
-          if (jieQi) {
-            bottomText = jieQi
-            bottomTextColor = 'text-zhuqing dark:text-green-400'
-          }
-
-          if (holiday) {
-            bottomText = holiday.getName()
-            isHoliday = true
-            bottomTextColor = 'text-tianshuibi dark:text-blue-400'
-          }
-
-          // Special handling for "初一" to show Month
-          if (lunar.getDay() === 1) {
-            bottomText = lunar.getMonthInChinese() + '月'
-            if (!isHoliday && !jieQi) {
-              bottomTextColor = 'text-qiuxiang dark:text-amber-500'
-            }
-          }
 
           // Last Saturday Logic
           const isSaturday = dayOfWeek === 6
           const isLastSaturday = isSaturday && dayItem.add(7, 'day').month() !== dayItem.month()
-          let isLastSatMark = false
-
-          if (isLastSaturday && !holiday) {
-            isLastSatMark = true
-            bottomText = '月末周六'
-            bottomTextColor = 'text-purple-600 dark:text-purple-400 font-bold'
-          }
 
           return (
             <motion.div
@@ -220,61 +211,77 @@ export function CalendarView({
               animate={{ opacity: 1 }}
               transition={{ delay: animDelay, duration: 0.3 }}
               onClick={() => onCellClick?.(dateObj)}
+              {...(restCustomProps as any)}
               className={cn(
-                'group relative border-b border-r border-songyan/20 p-2 transition-colors hover:bg-chenwu/30 dark:border-neutral-700 dark:hover:bg-neutral-800/50 flex flex-col min-h-0 cursor-pointer',
-                !isCurrentMonth && 'bg-yuebai/50 dark:bg-neutral-900/50',
-                isToday && !isSelected && 'bg-chenwu/30 dark:bg-blue-900/10',
-                isSelected && 'bg-chenwu dark:bg-blue-900/30 ring-2 ring-inset ring-zhuqing',
-                isWeekend &&
-                  isCurrentMonth &&
-                  !isToday &&
-                  !isSelected &&
-                  !isLastSatMark &&
-                  'bg-yuebai/30 dark:bg-neutral-800/20',
-                isLastSatMark && !isSelected && 'bg-purple-50 dark:bg-purple-900/20'
+                'group relative p-2 transition-all duration-300 flex flex-col min-h-0 cursor-pointer overflow-hidden',
+                // Default rounded shape for cells to look organic if custom bg is applied
+                'rounded-xl m-0.5',
+                !isCurrentMonth && 'opacity-40',
+                // isToday && !isSelected && 'bg-willow/10', // Moved to Seal logic below
+                isSelected && 'ring-2 ring-inset ring-indigo bg-paper shadow-sm z-10',
+                customClassName
               )}
             >
-              <div className="mb-1 flex-none flex items-start justify-between">
-                <span
-                  className={cn(
-                    'flex h-7 w-7 items-center justify-center rounded-full text-lg font-medium',
-                    isToday
-                      ? 'ring-2 ring-zhuqing text-zhuqing bg-transparent'
-                      : isCurrentMonth
-                        ? isWeekend
-                          ? 'text-dansha/80 dark:text-red-400'
-                          : 'text-mose dark:text-neutral-100'
-                        : 'text-songyan/60 dark:text-neutral-600'
-                  )}
-                >
-                  {dayItem.date()}
-                </span>
-              </div>
-
-              {/* Custom Card Slot */}
-              <div className="flex-1 min-h-0 overflow-y-auto mb-1">
-                {renderCell ? renderCell(dateObj) : null}
-              </div>
-
-              {/* Bottom Left Info */}
-              <div className="flex-none flex flex-col justify-end items-start gap-0.5">
-                <div className="flex items-center gap-1">
-                  <span className={cn('text-[10px] font-medium leading-none', bottomTextColor)}>
-                    {bottomText}
+              {/* 日期区域：阳历 + 阴历 */}
+              <div className="flex-none relative z-10">
+                {/* 阳历日期 + 休/班标签 + 节假日名称/月末周六 */}
+                <div className="flex items-center gap-1 mb-2">
+                  <span
+                    className={cn(
+                      'flex h-7 w-7 items-center justify-center text-lg font-medium font-serif-num transition-all',
+                      isToday
+                        ? 'bg-cinnabar text-paper shadow-sm rounded-md' // 印章风格 (Seal Style)
+                        : isCurrentMonth
+                          ? isWeekend
+                            ? 'text-cinnabar/80'
+                            : 'text-ink'
+                          : 'text-indigo/40'
+                    )}
+                    style={isToday ? {
+                      boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.2), 2px 2px 2px rgba(0,0,0,0.1)'
+                    } : undefined}
+                  >
+                    {dayItem.date()}
                   </span>
                   {holiday && (
                     <span
                       className={cn(
                         'text-[9px] px-1 rounded leading-none py-0.5',
                         holiday.isWork()
-                          ? 'bg-songyan/20 text-mose dark:bg-neutral-700 dark:text-neutral-300' // 班
-                          : 'bg-dansha/20 text-dansha dark:bg-red-900/30 dark:text-red-400' // 休
+                          ? 'bg-indigo/20 text-ink' // 班
+                          : 'bg-cinnabar text-paper' // 休
                       )}
                     >
                       {holiday.isWork() ? '班' : '休'}
                     </span>
                   )}
+                  {holiday && (
+                    <span className="text-[10px] font-medium leading-none font-serif-title text-cinnabar">
+                      {holiday.getName()}
+                    </span>
+                  )}
+                  {isLastSaturday && !holiday && (
+                    <span className="text-[10px] font-medium leading-none font-serif-title text-cinnabar font-bold">
+                      月末周六
+                    </span>
+                  )}
                 </div>
+                {/* 阴历日期 + 节气 */}
+                <div className="flex items-center gap-1">
+                  <span className={cn('text-[10px] font-medium leading-none font-serif-title', lunarTextColor)}>
+                    {lunarText}
+                  </span>
+                  {jieQi && (
+                    <span className="text-[10px] font-medium leading-none font-serif-title text-willow">
+                      {jieQi}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Custom Card Slot */}
+              <div className="flex-1 min-h-0 overflow-y-auto mt-1 relative z-10 no-scrollbar">
+                {renderCell ? renderCell(dateObj) : null}
               </div>
             </motion.div>
           )

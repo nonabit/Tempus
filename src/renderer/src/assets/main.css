@@ -1,20 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Noto+Serif+SC:wght@200..900&display=swap');
 @import './base.css';
 @import 'tailwindcss';
 
-/* 东方美学 Tailwind 主题扩展 */
+/* 墨与纸 (Ink & Paper) Design System */
 @theme {
-  --color-yuebai: #F7F9FA;
-  --color-mose: #2C3E50;
-  --color-songyan: #95A5A6;
-  --color-zhuqing: #52C41A;
-  --color-chenwu: #D5E8D4;
-  --color-qiuxiang: #F9C74F;
-  --color-dansha: #E76F51;
-  --color-tianshuibi: #7CB5C5;
+  /* 配色方案 - 五色观 */
+  --color-paper: #F7F4ED;
+  /* 背景色：极淡的米色，模拟宣纸 */
+  --color-ink: #2B2B2B;
+  /* 主色：墨色，带有微暖调 */
+
+  --color-cinnabar: #B14B38;
+  /* 高强度/加班：朱砂红 */
+  --color-indigo: #566C73;
+  /* 正常工时：黛蓝 */
+  --color-willow: #8A988E;
+  /* 轻松/少工时：柳染/淡青 */
+
+  /* 辅助色 (Mapped from previous theme just in case, but prioritizing above) */
+  --color-yuebai: #F7F4ED;
+  --color-mose: #2B2B2B;
+  --color-zhusha: #B14B38;
+  --color-dailan: #566C73;
+  --color-liuran: #8A988E;
+
+  /* 字体系统 */
+  --font-serif-num: "Crimson Pro", "Didot", "Bodoni MT", serif;
+  --font-serif-title: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
 }
 
 /* 东方美学字体系统 */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
 }
 
@@ -159,6 +177,7 @@ code {
   font-size: 14px;
   line-height: 14px;
   opacity: 0.8;
+
   &:last-child {
     border: none;
   }
@@ -177,6 +196,7 @@ code {
 }
 
 @media (max-width: 350px) {
+
   .tip,
   .actions {
     display: none;
