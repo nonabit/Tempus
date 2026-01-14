@@ -58,9 +58,9 @@ export function AchievementWall({ className }: AchievementWallProps) {
       <div key={category} className="mb-8">
         {/* 类别标题 */}
         <div className="flex items-center gap-2 mb-4">
-          <AchievementIcon icon={config.icon} className="w-5 h-5 text-songyan" />
-          <h3 className="text-lg font-bold text-mose dark:text-neutral-200">{config.name}</h3>
-          <span className="text-sm text-songyan dark:text-neutral-500">
+          <AchievementIcon icon={config.icon} className="w-5 h-5 text-indigo" />
+          <h3 className="text-lg font-bold text-ink font-serif-title">{config.name}</h3>
+          <span className="text-sm text-indigo/70 font-serif-num">
             ({categoryUnlocked}/{achievements.length})
           </span>
         </div>
@@ -91,12 +91,12 @@ export function AchievementWall({ className }: AchievementWallProps) {
   return (
     <div className={cn('h-full flex flex-col', className)}>
       {/* 头部：统计和筛选 */}
-      <div className="shrink-0 p-4 border-b border-songyan/20 dark:border-neutral-700">
+      <div className="shrink-0 p-4 border-b border-indigo/20">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-bold text-mose dark:text-white">成就勋章</h2>
-            <p className="text-sm text-songyan dark:text-neutral-400">
-              已解锁 {unlockedCount} / {totalCount} 个成就
+            <h2 className="text-xl font-bold text-ink font-serif-title">成就勋章</h2>
+            <p className="text-sm text-indigo/70">
+              已解锁 <span className="font-serif-num">{unlockedCount} / {totalCount}</span> 个成就
             </p>
           </div>
 
@@ -109,7 +109,7 @@ export function AchievementWall({ className }: AchievementWallProps) {
                 cy="18"
                 r="15.915"
                 fill="none"
-                className="stroke-songyan/20 dark:stroke-neutral-700"
+                className="stroke-indigo/20"
                 strokeWidth="3"
               />
               {/* 进度圆环 */}
@@ -118,7 +118,7 @@ export function AchievementWall({ className }: AchievementWallProps) {
                 cy="18"
                 r="15.915"
                 fill="none"
-                className="stroke-qiuxiang"
+                className="stroke-cinnabar"
                 strokeWidth="3"
                 strokeLinecap="round"
                 initial={{ strokeDasharray: '0 100' }}
@@ -129,7 +129,7 @@ export function AchievementWall({ className }: AchievementWallProps) {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-mose dark:text-neutral-300">
+              <span className="text-sm font-bold text-ink font-serif-num">
                 {Math.round((unlockedCount / totalCount) * 100)}%
               </span>
             </div>
@@ -143,10 +143,10 @@ export function AchievementWall({ className }: AchievementWallProps) {
               key={btn.type}
               onClick={() => setFilter(btn.type)}
               className={cn(
-                'px-3 py-1.5 text-sm rounded-lg transition-colors',
+                'px-3 py-1.5 text-sm rounded-lg transition-colors font-serif-title',
                 filter === btn.type
-                  ? 'bg-qiuxiang/20 text-qiuxiang dark:bg-amber-900/30 dark:text-amber-400'
-                  : 'bg-yuebai text-songyan hover:bg-chenwu dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700'
+                  ? 'bg-cinnabar/10 text-cinnabar'
+                  : 'bg-paper text-indigo hover:bg-willow/20'
               )}
             >
               {btn.label}
@@ -171,7 +171,7 @@ export function AchievementWall({ className }: AchievementWallProps) {
               if (filter === 'locked') return !p?.unlocked
               return true
             }).length === 0 && (
-            <div className="text-center py-12 text-songyan">
+            <div className="text-center py-12 text-indigo/60 font-serif-title">
               {filter === 'unlocked' ? '道阻且长，行则将至' : '功德圆满，诸事皆成'}
             </div>
           )}

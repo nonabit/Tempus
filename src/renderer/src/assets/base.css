@@ -1,48 +1,56 @@
 :root {
-  --ev-c-white: #ffffff;
-  --ev-c-white-soft: #f8f8f8;
-  --ev-c-white-mute: #f2f2f2;
+  /* Ink & Paper Palette */
+  --paper: #F7F4ED;
+  --ink: #2B2B2B;
+  --cinnabar: #B14B38;
+  --indigo: #566C73;
+  --willow: #8A988E;
 
-  --ev-c-black: #1b1b1f;
-  --ev-c-black-soft: #222222;
-  --ev-c-black-mute: #282828;
+  --ev-c-white: var(--paper);
+  --ev-c-white-soft: #fbf8f2;
+  --ev-c-white-mute: #efede7;
 
-  --ev-c-gray-1: #515c67;
-  --ev-c-gray-2: #414853;
-  --ev-c-gray-3: #32363f;
+  --ev-c-black: var(--ink);
+  --ev-c-black-soft: #333333;
+  --ev-c-black-mute: #3a3a3a;
 
-  --ev-c-text-1: rgba(255, 255, 245, 0.86);
-  --ev-c-text-2: rgba(235, 235, 245, 0.6);
-  --ev-c-text-3: rgba(235, 235, 245, 0.38);
+  --ev-c-gray-1: var(--indigo);
+  --ev-c-gray-2: var(--willow);
+  --ev-c-gray-3: #dcdcdc;
+
+  --ev-c-text-1: var(--ink);
+  --ev-c-text-2: rgba(43, 43, 43, 0.7);
+  --ev-c-text-3: rgba(43, 43, 43, 0.45);
 
   --ev-button-alt-border: transparent;
-  --ev-button-alt-text: var(--ev-c-text-1);
-  --ev-button-alt-bg: var(--ev-c-gray-3);
+  --ev-button-alt-text: var(--ev-c-white);
+  --ev-button-alt-bg: var(--ev-c-black);
   --ev-button-alt-hover-border: transparent;
-  --ev-button-alt-hover-text: var(--ev-c-text-1);
-  --ev-button-alt-hover-bg: var(--ev-c-gray-2);
+  --ev-button-alt-hover-text: var(--ev-c-white);
+  --ev-button-alt-hover-bg: var(--ev-c-black-soft);
 
-  /* 东方美学核心色板 */
-  --tempus-yuebai: #F7F9FA;      /* 月白 - 主背景 */
-  --tempus-mose: #2C3E50;        /* 墨色 - 主文字 */
-  --tempus-songyan: #95A5A6;     /* 松烟 - 次要文字 */
-  --tempus-zhuqing: #52C41A;     /* 竹青 - 主题色 */
-  --tempus-chenwu: #D5E8D4;      /* 晨雾 - 浅色背景 */
-  --tempus-qiuxiang: #F9C74F;    /* 秋香 - 警示色 */
-  --tempus-dansha: #E76F51;      /* 丹砂 - 错误色 */
-  --tempus-tianshuibi: #7CB5C5;  /* 天水碧 - 链接色 */
+  /* 东方美学核心色板 (Updated) */
+  --tempus-yuebai: var(--paper);
+  --tempus-mose: var(--ink);
+  --tempus-songyan: var(--indigo);
+  --tempus-zhuqing: var(--willow);
+  --tempus-chenwu: #E8E6E1;
+  --tempus-qiuxiang: #F9C74F;
+  --tempus-dansha: var(--cinnabar);
+  --tempus-tianshuibi: #7CB5C5;
 
   /* 字体变量 */
   --font-serif-cn: 'Noto Serif SC', 'Songti SC', serif;
   --font-sans-cn: 'PingFang SC', -apple-system, sans-serif;
+  --font-serif-num: 'Crimson Pro', serif;
 }
 
 :root {
-  --color-background: var(--ev-c-black);
-  --color-background-soft: var(--ev-c-black-soft);
-  --color-background-mute: var(--ev-c-black-mute);
+  --color-background: var(--paper);
+  --color-background-soft: var(--ev-c-white-soft);
+  --color-background-mute: var(--ev-c-white-mute);
 
-  --color-text: var(--ev-c-text-1);
+  --color-text: var(--ink);
 }
 
 *,

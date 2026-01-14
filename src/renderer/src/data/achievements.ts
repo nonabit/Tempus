@@ -208,34 +208,34 @@ export const RARITY_CONFIG: Record<
 > = {
   common: {
     name: '普通',
-    color: 'text-zhuqing dark:text-green-400',
-    bgColor: 'bg-chenwu dark:bg-green-900/20',
-    borderColor: 'border-zhuqing/30 dark:border-green-800',
-    gradientFrom: 'from-chenwu',
-    gradientTo: 'to-yuebai'
+    color: 'text-willow',
+    bgColor: 'bg-willow/10',
+    borderColor: 'border-willow/30',
+    gradientFrom: 'from-willow/10',
+    gradientTo: 'to-paper'
   },
   rare: {
     name: '稀有',
-    color: 'text-tianshuibi dark:text-blue-400',
-    bgColor: 'bg-tianshuibi/10 dark:bg-blue-900/20',
-    borderColor: 'border-tianshuibi/30 dark:border-blue-800',
-    gradientFrom: 'from-tianshuibi/10',
-    gradientTo: 'to-yuebai'
+    color: 'text-indigo',
+    bgColor: 'bg-indigo/10',
+    borderColor: 'border-indigo/30',
+    gradientFrom: 'from-indigo/10',
+    gradientTo: 'to-paper'
   },
   epic: {
     name: '史诗',
-    color: 'text-purple-600 dark:text-purple-400',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    borderColor: 'border-purple-200 dark:border-purple-800',
-    gradientFrom: 'from-purple-50',
-    gradientTo: 'to-yuebai'
+    color: 'text-cinnabar',
+    bgColor: 'bg-cinnabar/10',
+    borderColor: 'border-cinnabar/30',
+    gradientFrom: 'from-cinnabar/10',
+    gradientTo: 'to-paper'
   },
   legendary: {
     name: '传说',
-    color: 'text-qiuxiang dark:text-amber-400',
-    bgColor: 'bg-qiuxiang/10 dark:bg-amber-900/20',
-    borderColor: 'border-qiuxiang/30 dark:border-amber-800',
-    gradientFrom: 'from-qiuxiang/10',
-    gradientTo: 'to-yuebai'
+    color: 'text-ink',
+    bgColor: 'bg-ink/5',
+    borderColor: 'border-ink/20',
+    gradientFrom: 'from-ink/10',
+    gradientTo: 'to-paper'
   }
 }

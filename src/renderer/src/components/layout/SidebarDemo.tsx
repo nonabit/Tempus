@@ -5,7 +5,7 @@ import { motion } from 'motion/react'
 import { Sidebar, SidebarBody, SidebarLink } from '@/components/ui/sidebar'
 import { IconChartBar, IconCalendar, IconSettings, IconTrophy, IconX } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
-import { CalendarView } from '@/components/calendar-view'
+import { CalendarView } from '@/components/calendar'
 import { TimeEntryForm } from '@/components/timesheet'
 import { AchievementWall } from '@/components/achievement'
 import { IncomeCard, FunStats } from '@/components/widgets'
@@ -29,22 +29,22 @@ export default function SidebarDemo() {
     {
       label: '日历',
       href: '#',
-      icon: <IconCalendar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      icon: <IconCalendar className="h-5 w-5 shrink-0 text-ink/70" />
     },
     {
       label: '成就',
       href: '#',
-      icon: <IconTrophy className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      icon: <IconTrophy className="h-5 w-5 shrink-0 text-ink/70" />
     },
     {
       label: '统计',
       href: '#',
-      icon: <IconChartBar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      icon: <IconChartBar className="h-5 w-5 shrink-0 text-ink/70" />
     },
     {
       label: '设置',
       href: '#',
-      icon: <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      icon: <IconSettings className="h-5 w-5 shrink-0 text-ink/70" />
     }
   ]
 
@@ -71,12 +71,12 @@ export default function SidebarDemo() {
   return (
     <div
       className={cn(
-        'mx-auto flex w-full flex-1 flex-col overflow-hidden border border-songyan/20 bg-yuebai md:flex-row dark:border-neutral-700 dark:bg-neutral-800',
+        'mx-auto flex w-full flex-1 flex-col overflow-hidden border border-indigo/20 bg-paper md:flex-row',
         'h-screen'
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
+        <SidebarBody className="justify-between gap-10 bg-paper">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
             {/* 导航链接 */}
             <div className="mt-4 flex flex-col gap-2">
@@ -90,11 +90,11 @@ export default function SidebarDemo() {
       </Sidebar>
 
       {/* 主内容区 */}
-      <div className="flex flex-1 h-full overflow-hidden p-2 md:p-6 gap-4">
+      <div className="flex flex-1 h-full w-full overflow-hidden">
         {activeView === 'calendar' && (
           <>
             {/* 日历 */}
-            <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-hidden">
+            <div className="flex-1 min-h-0 bg-paper shadow-sm overflow-hidden">
               <CalendarView
                 className="flex-1 h-full min-h-0"
                 currentDate={date}
@@ -113,31 +113,28 @@ export default function SidebarDemo() {
                   const standardMinutes = settings.standardWorkHours * 60
 
                   // 根据工时长度选择颜色强度
-                  // <4h: 晨雾, 4-8h: 竹青浅, 8-10h: 竹青, 10-12h: 秋香, >12h: 丹砂
+                  // 轻松/少工时：柳染 (Willow)
+                  // 正常工时：黛蓝 (Indigo)
+                  // 加班/高强度：朱砂红 (Cinnabar)
                   const getColorClass = () => {
                     const { totalMinutes, overtimeMinutes } = workInfo
-                    if (totalMinutes < 240) {
-                      // < 4小时：晨雾色
-                      return 'bg-chenwu text-zhuqing dark:bg-emerald-900/20 dark:text-emerald-400'
-                    } else if (totalMinutes <= standardMinutes) {
-                      // 4-8小时：竹青浅
-                      return 'bg-zhuqing/20 text-zhuqing dark:bg-emerald-900/30 dark:text-emerald-300'
-                    } else if (overtimeMinutes <= 120) {
-                      // 8-10小时：竹青
-                      return 'bg-zhuqing/40 text-zhuqing dark:bg-emerald-800/40 dark:text-emerald-200'
-                    } else if (overtimeMinutes <= 240) {
-                      // 10-12小时：秋香警示
-                      return 'bg-qiuxiang/30 text-qiuxiang dark:bg-amber-900/30 dark:text-amber-300'
+
+                    if (totalMinutes < standardMinutes - 60) {
+                      // 少于标准工时（例如少于1小时以上）：轻松
+                      return 'bg-willow/10 text-willow'
+                    } else if (overtimeMinutes <= 30) {
+                      // 标准工时左右（考虑到一点误差）：正常
+                      return 'bg-indigo/10 text-indigo'
                     } else {
-                      // >12小时：丹砂警示
-                      return 'bg-dansha/30 text-dansha dark:bg-red-900/30 dark:text-red-300'
+                      // 加班：高强度
+                      return 'bg-cinnabar/10 text-cinnabar'
                     }
                   }
 
                   return (
                     <div
                       className={cn(
-                        'w-full rounded p-1 text-xs text-center font-medium',
+                        'w-full rounded p-1 text-xs text-center font-medium font-serif-num',
                         getColorClass()
                       )}
                     >
@@ -157,10 +154,10 @@ export default function SidebarDemo() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="shrink-0 overflow-hidden"
             >
-              <div className="w-80 h-full bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm p-4 relative overflow-y-auto">
+              <div className="w-80 h-full bg-paper rounded-xl border border-indigo/20 shadow-sm p-4 relative overflow-y-auto">
                 <button
                   onClick={handleClosePanel}
-                  className="absolute right-3 top-3 rounded-lg p-1 text-songyan hover:bg-chenwu hover:text-mose dark:hover:bg-neutral-700 z-10"
+                  className="absolute right-3 top-3 rounded-lg p-1 text-indigo hover:bg-willow/20 hover:text-ink z-10"
                 >
                   <IconX className="h-4 w-4" />
                 </button>
@@ -183,19 +180,19 @@ export default function SidebarDemo() {
         )}
 
         {activeView === 'achievement' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-hidden">
+          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-hidden">
             <AchievementWall />
           </div>
         )}
 
         {activeView === 'stats' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-y-auto p-4">
+          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-y-auto p-4">
             <StatsPage />
           </div>
         )}
 
         {activeView === 'settings' && (
-          <div className="flex-1 min-h-0 bg-white dark:bg-neutral-900 rounded-xl border border-songyan/20 dark:border-neutral-800 shadow-sm overflow-y-auto">
+          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-y-auto">
             <ApiConfigForm />
           </div>
         )}

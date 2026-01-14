@@ -65,13 +65,13 @@ export function AchievementBadge({
         config.container,
         unlocked
           ? cn(
-              'bg-gradient-to-br dark:from-neutral-800 dark:to-neutral-900',
-              rarityConfig.gradientFrom,
-              rarityConfig.gradientTo,
-              rarityConfig.borderColor,
-              'shadow-sm hover:shadow-md'
-            )
-          : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700 opacity-60',
+            'bg-gradient-to-br',
+            rarityConfig.gradientFrom,
+            rarityConfig.gradientTo,
+            rarityConfig.borderColor,
+            'shadow-sm hover:shadow-md'
+          )
+          : 'bg-paper border-indigo/20 opacity-60',
         className
       )}
     >
@@ -82,15 +82,15 @@ export function AchievementBadge({
             'shrink-0 rounded-full flex items-center justify-center',
             config.icon,
             unlocked
-              ? cn('bg-white/80 dark:bg-neutral-700', rarityConfig.borderColor, 'border')
-              : 'bg-neutral-200 dark:bg-neutral-700'
+              ? cn('bg-paper', rarityConfig.borderColor, 'border')
+              : 'bg-indigo/5 border border-indigo/10'
           )}
         >
           <AchievementIcon
             icon={achievement.icon}
             className={cn(
               config.iconSize,
-              unlocked ? rarityConfig.color : 'text-neutral-400 dark:text-neutral-500'
+              unlocked ? rarityConfig.color : 'text-indigo/30'
             )}
           />
         </div>
@@ -100,11 +100,11 @@ export function AchievementBadge({
           <div className="flex items-center gap-2 mb-1">
             <span
               className={cn(
-                'font-bold truncate',
+                'font-bold truncate font-serif-title',
                 config.title,
                 unlocked
-                  ? 'text-neutral-900 dark:text-white'
-                  : 'text-neutral-500 dark:text-neutral-400'
+                  ? 'text-ink'
+                  : 'text-indigo/50'
               )}
             >
               {achievement.name}
@@ -127,8 +127,8 @@ export function AchievementBadge({
               'line-clamp-2 mb-2',
               config.desc,
               unlocked
-                ? 'text-neutral-600 dark:text-neutral-300'
-                : 'text-neutral-400 dark:text-neutral-500'
+                ? 'text-indigo/80'
+                : 'text-indigo/40'
             )}
           >
             {achievement.description}
@@ -146,7 +146,7 @@ export function AchievementBadge({
 
           {/* 解锁时间 - 已解锁时显示 */}
           {unlocked && progress.unlockedAt && (
-            <div className="text-xs text-neutral-400 dark:text-neutral-500">
+            <div className="text-xs text-indigo/50 font-serif-num">
               解锁于 {new Date(progress.unlockedAt).toLocaleDateString('zh-CN')}
             </div>
           )}

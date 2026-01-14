@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Solar } from 'lunar-typescript'
-import SidebarDemo from './components/sidebar-demo'
+import { SidebarDemo } from './components/layout'
 import { AchievementNotification } from './components/achievement'
 import { SolarTermCard } from './components/solarterm'
 import { useAchievementSync } from './hooks/useAchievementSync'
@@ -43,8 +43,8 @@ function App(): React.JSX.Element {
 
   if (!isReady) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-neutral-900">
-        <div className="text-neutral-400">加载中...</div>
+      <div className="h-screen w-screen flex items-center justify-center bg-paper">
+        <div className="text-indigo">加载中...</div>
       </div>
     )
   }
