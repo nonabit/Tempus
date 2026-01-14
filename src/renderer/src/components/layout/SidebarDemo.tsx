@@ -94,7 +94,7 @@ export default function SidebarDemo() {
         {activeView === 'calendar' && (
           <>
             {/* 日历 */}
-            <div className="flex-1 min-h-0 bg-paper shadow-sm overflow-hidden">
+            <div className="flex-1 min-h-0 bg-paper paper-texture shadow-sm overflow-hidden">
               <CalendarView
                 className="flex-1 h-full min-h-0"
                 currentDate={date}
@@ -154,7 +154,7 @@ export default function SidebarDemo() {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="shrink-0 overflow-hidden"
             >
-              <div className="w-80 h-full bg-paper rounded-xl border border-indigo/20 shadow-sm p-4 relative overflow-y-auto">
+              <div className="w-80 h-full bg-paper p-4 relative overflow-y-auto">
                 <button
                   onClick={handleClosePanel}
                   className="absolute right-3 top-3 rounded-lg p-1 text-indigo hover:bg-willow/20 hover:text-ink z-10"
@@ -180,19 +180,19 @@ export default function SidebarDemo() {
         )}
 
         {activeView === 'achievement' && (
-          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-hidden">
+          <div className="flex-1 min-h-0 bg-paper overflow-hidden">
             <AchievementWall />
           </div>
         )}
 
         {activeView === 'stats' && (
-          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-y-auto p-4">
+          <div className="flex-1 min-h-0 bg-paper overflow-y-auto p-4">
             <StatsPage />
           </div>
         )}
 
         {activeView === 'settings' && (
-          <div className="flex-1 min-h-0 bg-paper rounded-xl border border-indigo/20 shadow-sm overflow-y-auto">
+          <div className="flex-1 min-h-0 bg-paper overflow-y-auto">
             <ApiConfigForm />
           </div>
         )}
