@@ -8,6 +8,7 @@ import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Solar, HolidayUtil } from 'lunar-typescript'
+import todaySealImg from '@/assets/today-seal.png'
 
 interface CalendarViewProps {
   /**
@@ -153,7 +154,7 @@ export function CalendarView({
         {weekDays.map((day) => (
           <div
             key={day}
-            className="bg-paper py-2 text-center text-sm font-medium text-indigo font-serif-title"
+            className="bg-paper py-2 text-center text-base font-semibold text-indigo font-serif-title"
           >
             {day}
           </div>
@@ -228,25 +229,20 @@ export function CalendarView({
                 <div className="flex items-center gap-1 mb-2">
                   <span
                     className={cn(
-                      'flex h-7 w-7 items-center justify-center text-lg font-medium font-serif-num transition-all',
-                      isToday
-                        ? 'bg-cinnabar text-paper shadow-sm rounded-md' // 印章风格 (Seal Style)
-                        : isCurrentMonth
-                          ? isWeekend
-                            ? 'text-cinnabar/80'
-                            : 'text-ink'
-                          : 'text-indigo/40'
+                      'flex h-8 w-8 items-center justify-center text-xl font-medium font-serif-num transition-all',
+                      isCurrentMonth
+                        ? isWeekend
+                          ? 'text-cinnabar/80'
+                          : 'text-ink'
+                        : 'text-indigo/40'
                     )}
-                    style={isToday ? {
-                      boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.2), 2px 2px 2px rgba(0,0,0,0.1)'
-                    } : undefined}
                   >
                     {dayItem.date()}
                   </span>
                   {holiday && (
                     <span
                       className={cn(
-                        'text-[9px] px-1 rounded leading-none py-0.5',
+                        'text-[10px] px-1 rounded leading-none py-0.5',
                         holiday.isWork()
                           ? 'bg-indigo/20 text-ink' // 班
                           : 'bg-cinnabar text-paper' // 休
@@ -256,23 +252,23 @@ export function CalendarView({
                     </span>
                   )}
                   {holiday && (
-                    <span className="text-[10px] font-medium leading-none font-serif-title text-cinnabar">
+                    <span className="text-[11px] font-medium leading-none font-serif-title text-cinnabar">
                       {holiday.getName()}
                     </span>
                   )}
                   {isLastSaturday && !holiday && (
-                    <span className="text-[10px] font-medium leading-none font-serif-title text-cinnabar font-bold">
+                    <span className="text-[11px] font-medium leading-none font-serif-title text-cinnabar font-bold">
                       月末周六
                     </span>
                   )}
                 </div>
                 {/* 阴历日期 + 节气 */}
                 <div className="flex items-center gap-1 mt-3">
-                  <span className={cn('text-[10px] font-medium leading-none font-serif-title', lunarTextColor)}>
+                  <span className={cn('text-[11px] font-medium leading-none font-serif-title', lunarTextColor)}>
                     {lunarText}
                   </span>
                   {jieQi && (
-                    <span className="text-[10px] font-medium leading-none font-serif-title text-willow">
+                    <span className="text-[11px] font-medium leading-none font-serif-title text-willow">
                       {jieQi}
                     </span>
                   )}
@@ -283,6 +279,19 @@ export function CalendarView({
               <div className="flex-1 min-h-0 overflow-y-auto mt-3 relative z-10 no-scrollbar">
                 {renderCell ? renderCell(dateObj) : null}
               </div>
+
+              {/* 今日印章贴图 */}
+              {isToday && (
+                <img
+                  src={todaySealImg}
+                  alt="今"
+                  className="absolute bottom-1 right-1 w-9 h-9 object-contain pointer-events-none select-none"
+                  style={{
+                    transform: 'rotate(8deg)',
+                    filter: 'drop-shadow(1px 1px 1px rgba(0,0,0,0.15))'
+                  }}
+                />
+              )}
             </motion.div>
           )
         })}
