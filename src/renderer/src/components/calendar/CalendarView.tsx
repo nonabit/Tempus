@@ -4,9 +4,8 @@ import * as React from 'react'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { motion, AnimatePresence } from 'motion/react'
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { MeanderButton } from '@/components/ui/meander-button'
 import { Solar, HolidayUtil } from 'lunar-typescript'
 import todaySealImg from '@/assets/today-seal.png'
 
@@ -127,24 +126,16 @@ export function CalendarView({
           )}
         </AnimatePresence>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
+          <MeanderButton
+            direction="left"
             onClick={handlePrevMonth}
-            className="h-8 w-8 rounded-md border-indigo/20 hover:bg-willow/10"
-            aria-label="Previous month"
-          >
-            <IconChevronLeft className="h-4 w-4 text-ink" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
+            aria-label="上一月"
+          />
+          <MeanderButton
+            direction="right"
             onClick={handleNextMonth}
-            className="h-8 w-8 rounded-md border-indigo/20 hover:bg-willow/10"
-            aria-label="Next month"
-          >
-            <IconChevronRight className="h-4 w-4 text-ink" />
-          </Button>
+            aria-label="下一月"
+          />
         </div>
       </div>
 
